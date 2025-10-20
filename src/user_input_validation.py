@@ -28,3 +28,11 @@ def validate_email(email):
         return True
     else:
         return False
+
+def validate_skills(skill_string):
+    """
+    Function to validate the string of skills entered by user.
+    The string od skills is considered valid if the user has
+    entered atleast 5 skills.
+    """
+    pass

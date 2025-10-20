@@ -49,3 +49,20 @@ class TestDataManager(unittest.TestCase):
             "user_mail" : ""
         }
         self.assertEqual(self.data_manager.get_user_data(), empty_data)
+
+    def test_register_user_once(self):
+        self.data_manager.register_user("abc", "abc@def.com")
+        return_data = {
+            "user_name": "abc",
+            "user_mail": "abc@def.com"
+        }
+        self.assertEqual(self.data_manager.get_user_data(), return_data)
+
+    def test_register_user_change_details(self):
+        self.data_manager.register_user("a1b2", "a12@bc3.com")
+        self.data_manager.register_user("abc", "abc@def.com")
+        return_data = {
+            "user_name": "abc",
+            "user_mail": "abc@def.com"
+        }
+        self.assertEqual(self.data_manager.get_user_data(), return_data)

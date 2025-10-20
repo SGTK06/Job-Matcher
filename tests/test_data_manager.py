@@ -36,9 +36,12 @@ class TestDataManager(unittest.TestCase):
     def test_get_user_data(self, user_df):
         # Create DataFrame
         user_df.return_value = pandas.DataFrame(self.user_data)
-
+        return_data = {
+            "user_name": "Peter",
+            "user_mail": "parker@marvel.com"
+        }
         new_manager = DataManager()
-        self.assertEqual(new_manager.get_user_data(), self.user_data)
+        self.assertEqual(new_manager.get_user_data(), return_data)
 
     def test_get_empty_user_data(self):
         empty_data = {

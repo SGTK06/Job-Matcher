@@ -17,3 +17,10 @@ class DataManager:
         if data is not available, it return dict with
         empty strings
         """
+        if self.is_signed_in():
+            user_data = self.user_data_frame.fillna("").iloc[0].to_dict()
+        else:
+            user_data = {}
+            for column in self.user_data_frame.columns:
+                user_data[column] = ""
+        return user_data

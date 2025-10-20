@@ -12,5 +12,8 @@ class DataManager:
         return not self.user_data_frame.empty
 
     def get_user_data(self):
-        """returns user data loaded from csv file"""
-        pass
+        """
+        returns user data loaded from csv file
+        if data is not available, it return dict with
+        empty strings
+        """

@@ -40,7 +40,7 @@ class TestDataManager(unittest.TestCase):
         new_manager = DataManager()
         self.assertEqual(new_manager.get_user_data(), self.user_data)
 
-    def test_get_user_data(self):
+    def test_get_empty_user_data(self):
         empty_data = {
             "user_name" : "",
             "user_mail" : ""

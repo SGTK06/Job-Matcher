@@ -22,3 +22,9 @@ def validate_email(email):
         ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
         (e.g. mailaddr@exampledomain.extension)
     """
+    mail_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+
+    if re.fullmatch(mail_regex, email):
+        return True
+    else:
+        return False

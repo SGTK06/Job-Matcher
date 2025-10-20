@@ -24,3 +24,21 @@ class DataManager:
             for column in self.user_data_frame.columns:
                 user_data[column] = ""
         return user_data
+
+    def register_user(self, user_name, user_mail):
+        new_user_data = {
+            "user_name" : user_name,
+            "user_mail" : user_mail
+        }
+
+        if not self.user_data_frame.empty:
+            self.user_data_frame.loc[self.user_data_frame.index[0]] = new_user_data
+        else:
+            self.user_data_frame = pd.DataFrame([new_user_data])
+
+        return True
+
+    def save_user(self):
+        self.user_data_frame.to_csv(USER_DATA, index=False, encoding="utf-8")
+        return True
+

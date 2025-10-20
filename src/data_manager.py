@@ -10,3 +10,7 @@ class DataManager:
 
     def is_signed_in(self):
         return not self.user_data_frame.empty
+
+    def get_user_data(self):
+        """returns user data loaded from csv file"""
+        pass

@@ -35,4 +35,8 @@ def validate_skills(skill_string):
     The string od skills is considered valid if the user has
     entered atleast 5 skills.
     """
-    pass
+    skills = skill_string.strip().split(",")
+    if len(skills) >= 5:
+        return True
+    else:
+        return False

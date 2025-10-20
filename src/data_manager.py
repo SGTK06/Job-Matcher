@@ -7,6 +7,7 @@ class DataManager:
     """
     def __init__(self):
         self.user_data_frame = pd.read_csv(USER_DATA)
+        self.user_preferences = pd.read_csv(USER_PREFERENCES)
 
     def is_signed_in(self):
         return not self.user_data_frame.empty

@@ -1,3 +1,5 @@
+import re
+
 def validate_user_name(user_name):
     """
     Function to check if the given user name input is valid.
@@ -11,3 +13,12 @@ def validate_user_name(user_name):
         return False
     else:
         return True
+
+def validate_email(email):
+    """
+    Function used to validate the email address input by user.
+    Email address is considered valid if the mail matches the regular expression
+    for mail ids:
+        ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+        (e.g. mailaddr@exampledomain.extension)
+    """

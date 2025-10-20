@@ -9,4 +9,4 @@ class DataManager:
         self.user_data_frame = pd.read_csv(USER_DATA)
 
     def is_signed_in(self):
-        return self.user_data_frame.empty
+        return not self.user_data_frame.empty

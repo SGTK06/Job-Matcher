@@ -24,16 +24,35 @@ st.write("Please fill up the details below to set up your profile start using th
 data_manager = DataManager()
 # Signup form
 with st.form(key='profile_form'):
+
     if data_manager.is_signed_in():
         user_data = data_manager.get_user_data()
-        username = st.text_input("Username", key='profile_username', placeholder="5+ chars", value=user_data["user_name"])
-        email = st.text_input("Email", key='profile_email', placeholder="mail@domain.extension", value=user_data["user_mail"])
+        username = st.text_input(
+            "Username",
+            key='profile_username',
+            placeholder="5+ chars",
+            value=user_data["user_name"]
+        )
+        email = st.text_input(
+            "Email",
+            key='profile_email',
+            placeholder="mail@domain.extension",
+            value=user_data["user_mail"]
+        )
 
     else:
-        username = st.text_input("Username", key='profile_username', placeholder="5+ chars")
-        email = st.text_input("Email", key='profile_email', placeholder="mail@domain.extension")
+        username = st.text_input(
+            "Username",
+            key='profile_username',
+            placeholder="5+ chars"
+        )
+        email = st.text_input(
+            "Email",
+            key='profile_email',
+            placeholder="mail@domain.extension"
+        )
 
-    # Submit button
+    # Save button
     save_button = st.form_submit_button(
         label="Save Profile"
     )

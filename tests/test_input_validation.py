@@ -35,3 +35,8 @@ class TestInputValidation(unittest.TestCase):
         """test case to check if long user name input is accepted by the validation logic"""
         empty_name = "abcdefghijklmnopqrstuvwxyz"
         self.assertTrue(validate_user_name(empty_name))
+
+    def test_space_user_name(self):
+        """test case to check if space user name input is rejected by the validation logic"""
+        empty_name = "        "
+        self.assertFalse(validate_user_name(empty_name))

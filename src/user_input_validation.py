@@ -7,4 +7,7 @@ def validate_user_name(user_name):
     If valid -> returns True
     else     -> returns False
     """
-    return True
+    if len(user_name.strip()) <= 5:
+        return False
+    else:
+        return True

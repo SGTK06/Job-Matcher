@@ -43,3 +43,10 @@ class DataManager:
         self.user_data_frame.to_csv(USER_DATA, index=False, encoding="utf-8")
         return True
 
+    def register_preferences(self, skills, min_salary):
+        """
+        This function is used to save the user preferences for the app
+        This takes skills string and minimum salary as inputs and saves
+        it in a dataframe:
+        """
+

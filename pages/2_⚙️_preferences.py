@@ -20,7 +20,7 @@ with st.form(key='preferences_form'):
         placeholder="skill-1, skill-2, skill-3, . . . . ."
     )
     minSalary = st.number_input(
-        "Enter the minimum salary",
+        "Enter the minimum salary in k (1000)",
         step=100,
         min_value=0
     )

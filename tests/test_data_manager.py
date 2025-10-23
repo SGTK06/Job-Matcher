@@ -3,6 +3,7 @@ import pandas
 from unittest import mock
 
 from src.data_manager import DataManager
+from src.config import *
 
 class TestDataManager(unittest.TestCase):
     """
@@ -10,6 +11,7 @@ class TestDataManager(unittest.TestCase):
     by data manager
     """
     def setUp(self):
+
         self.user_data = {
             "user_name": ["Peter"],
             "user_mail": ["parker@marvel.com"]
@@ -21,6 +23,22 @@ class TestDataManager(unittest.TestCase):
         }
 
         self.data_manager = DataManager()
+        self.set_up_testing_env()
+
+    def tearDown(self):
+        self.restore_production_env()
+
+    def set_up_testing_env(self):
+        self._production_user_data = self.data_manager.user_data_frame
+        self._production_user_pref = self.data_manager.user_preferences
+        user_data_headers = pandas.read_csv(USER_DATA, nrows=0)
+        user_pref_headers = pandas.read_csv(USER_PREFERENCES, nrows=0)
+        user_data_headers.to_csv(USER_DATA, index=False)
+        user_pref_headers.to_csv(USER_PREFERENCES, index=False)
+
+    def restore_production_env(self):
+        self._production_user_data.to_csv(USER_DATA, index=False)
+        self._production_user_pref.to_csv(USER_PREFERENCES, index=False)
 
     def test_initialization(self):
         data_manager = DataManager()

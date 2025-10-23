@@ -128,7 +128,7 @@ class TestDataManager(unittest.TestCase):
         }
         self.assertEqual(self.data_manager.get_preferences(), return_data)
 
-    def test_register_user_change_details(self):
+    def test_register_preferences_change_details(self):
         self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5,", "10")
         self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5, skill6", "20")
         return_data = {

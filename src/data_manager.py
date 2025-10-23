@@ -55,6 +55,28 @@ class DataManager:
         This function returns the preferences of the user in the form
         of a dictionary.
         """
+        if self.has_preferences():
+            user_pref = self.user_preferences.fillna("").iloc[0].to_dict()
+            for key in user_pref:
+                if key == "user_skills":
+                    user_pref[key] = self.skill_set(user_pref[key])
+                elif key == "min_salary":
+                    try:
+                        user_pref[key] = int(user_pref[key])
+                    except ValueError:
+                        user_pref[key] = 0
+
+        else:
+            user_pref = {}
+            for column in self.user_preferences.columns:
+                if column == "user_skills":
+                    user_pref[column] = []
+                elif column == "min_salary":
+                    user_pref[column] = 0
+                else:
+                    user_pref[column] = ""
+
+        return user_pref
 
     def has_preferences(self):
         """
@@ -64,3 +86,10 @@ class DataManager:
          - False : if user has not selected preferences before
         """
         return not self.user_preferences.empty
+
+    def skill_set(self, skill_string):
+        skills = []
+        for skill in skill_string.strip().split(","):
+            skills.append(skill.strip())
+
+        return skills

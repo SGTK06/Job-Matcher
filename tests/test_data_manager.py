@@ -29,8 +29,11 @@ class TestDataManager(unittest.TestCase):
         self.restore_production_env()
 
     def set_up_testing_env(self):
-        self._production_user_data = self.data_manager.user_data_frame
-        self._production_user_pref = self.data_manager.user_preferences
+        #make deep copy to prevent mutation of user data during testing
+        self._production_user_data = self.data_manager.user_data_frame.copy(deep=True)
+        self._production_user_pref = self.data_manager.user_preferences.copy(deep=True)
+
+        #keep headers only
         user_data_headers = pandas.read_csv(USER_DATA, nrows=0)
         user_pref_headers = pandas.read_csv(USER_PREFERENCES, nrows=0)
         user_data_headers.to_csv(USER_DATA, index=False)

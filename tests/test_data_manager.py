@@ -111,11 +111,28 @@ class TestDataManager(unittest.TestCase):
             "min_salary": 10
         }
         new_manager = DataManager()
-        self.assertEqual(new_manager.get_user_data(), return_data)
+        self.assertEqual(new_manager.get_preferences(), return_data)
 
     def test_get_empty_preferences_data(self):
         empty_data = {
             "user_skills": [],
             "min_salary": 0
         }
-        self.assertEqual(self.data_manager.get_user_data(), empty_data)
+        self.assertEqual(self.data_manager.get_preferences(), empty_data)
+
+    def test_register_preferences_once(self):
+        self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5", "10")
+        return_data = {
+            "user_skills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
+            "min_salary": 10
+        }
+        self.assertEqual(self.data_manager.get_preferences(), return_data)
+
+    def test_register_user_change_details(self):
+        self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5,", "10")
+        self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5, skill6", "20")
+        return_data = {
+            "user_skills": ["skill1", "skill2", "skill3", "skill4", "skill5", "skill6"],
+            "min_salary": 20
+        }
+        self.assertEqual(self.data_manager.get_preferences(), return_data)

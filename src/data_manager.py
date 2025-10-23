@@ -63,3 +63,4 @@ class DataManager:
          - True : if user has selected preferences
          - False : if user has not selected preferences before
         """
+        return not self.user_preferences.empty

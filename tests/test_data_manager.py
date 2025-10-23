@@ -15,6 +15,11 @@ class TestDataManager(unittest.TestCase):
             "user_mail": ["parker@marvel.com"]
         }
 
+        self.user_preferences = {
+            "user_skills": ["s1, s2, s3, s4, s5"],
+            "min_salary": [10]
+        }
+
         self.data_manager = DataManager()
 
     def test_initialization(self):
@@ -66,3 +71,13 @@ class TestDataManager(unittest.TestCase):
             "user_mail": "abc@def.com"
         }
         self.assertEqual(self.data_manager.get_user_data(), return_data)
+
+    def test_initial_preferences(self):
+        self.assertFalse(self.data_manager.has_preferences())
+
+    @mock.patch("pandas.read_csv")
+    def test_loaded_preferences(self, pref_df):
+        pref_df.return_value = pandas.DataFrame(self.user_preferences)
+        new_manager = DataManager()
+        self.assertTrue(new_manager.has_preferences())
+

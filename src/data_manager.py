@@ -50,3 +50,16 @@ class DataManager:
         it in a dataframe:
         """
 
+    def get_preferences(self):
+        """
+        This function returns the preferences of the user in the form
+        of a dictionary.
+        """
+
+    def has_preferences(self):
+        """
+        This function returns if the user has selected preferences
+        previously as boolean
+         - True : if user has selected preferences
+         - False : if user has not selected preferences before
+        """

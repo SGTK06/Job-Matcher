@@ -49,6 +49,17 @@ class DataManager:
         This takes skills string and minimum salary as inputs and saves
         it in a dataframe:
         """
+        new_user_pref = {
+            "user_skills" : skills,
+            "min_salary" : min_salary
+        }
+
+        if not self.user_preferences.empty:
+            self.user_preferences.loc[self.user_preferences.index[0]] = new_user_pref
+        else:
+            self.user_preferences = pd.DataFrame([new_user_pref])
+
+        return True
 
     def get_preferences(self):
         """

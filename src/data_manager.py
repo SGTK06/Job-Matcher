@@ -104,3 +104,7 @@ class DataManager:
             skills.append(skill.strip())
 
         return skills
+
+    def save_preferences(self):
+        self.user_preferences.to_csv(USER_PREFERENCES, index=False, encoding="utf-8")
+        return True

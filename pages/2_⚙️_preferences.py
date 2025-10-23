@@ -27,3 +27,4 @@ with st.form(key='preferences_form'):
 
     # Save button
     save_button = st.form_submit_button(label="Save Preferences")
+

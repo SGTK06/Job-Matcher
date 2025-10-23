@@ -18,7 +18,7 @@ class TestDataManager(unittest.TestCase):
         }
 
         self.user_preferences = {
-            "user_skills": ["s1, s2, s3, s4, s5"],
+            "user_skills": ["skill1, skill2, skill3, skill4, skill5"],
             "min_salary": [10]
         }
 
@@ -102,3 +102,20 @@ class TestDataManager(unittest.TestCase):
         new_manager = DataManager()
         self.assertTrue(new_manager.has_preferences())
 
+    @mock.patch("pandas.read_csv")
+    def test_get_preferences_data(self, pref_df):
+        # Create DataFrame
+        pref_df.return_value = pandas.DataFrame(self.user_preferences)
+        return_data = {
+            "user_skills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
+            "min_salary": 10
+        }
+        new_manager = DataManager()
+        self.assertEqual(new_manager.get_user_data(), return_data)
+
+    def test_get_empty_preferences_data(self):
+        empty_data = {
+            "user_skills": [],
+            "min_salary": 0
+        }
+        self.assertEqual(self.data_manager.get_user_data(), empty_data)

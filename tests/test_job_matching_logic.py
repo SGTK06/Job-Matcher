@@ -164,6 +164,22 @@ class TestJobMatching(unittest.TestCase):
         suitability = evaluate_job(job_details)
         self.assertTrue(suitability)
 
+    def test_matched_skills_exact_salary(self):
+        data_manager = DataManager()
+        data_manager.register_user("userX", "ux@mail.com")
+        data_manager.register_preferences(
+            self.user_skills,
+            self.pref_salary
+        )
+
+        job_details = {
+            "salary": self.pref_salary,
+            "tags": self.suitable_tags
+        }
+
+        suitability = evaluate_job(job_details)
+        self.assertTrue(suitability)
+
         self.restore_production_env()
 
 

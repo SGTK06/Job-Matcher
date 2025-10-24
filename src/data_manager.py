@@ -28,8 +28,8 @@ class DataManager:
 
     def register_user(self, user_name, user_mail):
         new_user_data = {
-            "user_name" : user_name,
-            "user_mail" : user_mail
+            "user_name": user_name,
+            "user_mail": user_mail
         }
 
         if not self.user_data_frame.empty:
@@ -50,8 +50,8 @@ class DataManager:
         it in a dataframe:
         """
         new_user_pref = {
-            "user_skills" : skills,
-            "min_salary" : min_salary
+            "user_skills": skills,
+            "min_salary": min_salary
         }
 
         if not self.user_preferences.empty:

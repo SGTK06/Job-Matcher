@@ -1,5 +1,6 @@
 import re
 
+
 def validate_user_name(user_name):
     """
     Function to check if the given user name input is valid.
@@ -14,6 +15,7 @@ def validate_user_name(user_name):
     else:
         return True
 
+
 def validate_email(email):
     """
     Function used to validate the email address input by user.
@@ -22,12 +24,13 @@ def validate_email(email):
         ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
         (e.g. mailaddr@exampledomain.extension)
     """
-    mail_regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    mail_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 
     if re.fullmatch(mail_regex, email):
         return True
     else:
         return False
+
 
 def validate_skills(skill_string):
     """

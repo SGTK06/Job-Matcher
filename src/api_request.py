@@ -2,6 +2,7 @@ import requests
 from fake_useragent import UserAgent
 from src.config import PROXY_NAME, PROXY_AUTH
 
+
 class ApiRequest:
     """
     class to handle the API call requests made by
@@ -9,11 +10,11 @@ class ApiRequest:
     """
     def __init__(self):
         """class to construct call handler"""
-        self.access_headers =  {
-            "User-Agent" : UserAgent().random,
-            "Accept-Language" : "en-US,en;q=0.9",
-            "Connection" : "keep-alive",
-            "Referer" : "https://www.google.com"
+        self.access_headers = {
+            "User-Agent": UserAgent().random,
+            "Accept-Language": "en-US,en;q=0.9",
+            "Connection": "keep-alive",
+            "Referer": "https://www.google.com"
         }
         self.rotating_proxy = self.create_rotating_proxy(PROXY_NAME, PROXY_AUTH)
         self.request_session = requests.Session()
@@ -25,7 +26,7 @@ class ApiRequest:
         }
         return rotating_proxies
 
-    def get_request(self ,url, query_limit):
+    def get_request(self, url, query_limit):
         """
         function to query API url and return the response of API
         as a json object.
@@ -47,7 +48,7 @@ class ApiRequest:
         if response.status_code == 200:
             return response.json()
         else:
-            #fallback to normal query
+            # fallback to normal query
             response = self.request_session.get(url)
             if response.status_code == 200:
                 return response.json()

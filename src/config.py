@@ -8,3 +8,5 @@ REMOTIVE_API = "https://remotive.com/api/remote-jobs"
 # and query API without need for prerequisite account creation
 PROXY_NAME = "smcujzjp-rotate"
 PROXY_AUTH = "jz0gg0kvo06l"
+
+SAVED_LISTINGS = "data/saved_listings.csv"

@@ -32,3 +32,9 @@ def evaluate_job(job_details):
     except:
         print("Given data does not have the details of a job !!!")
     return match_skills and match_salary
+
+def search_and_match_jobs(num_jobs):
+    """
+    Function to search for number of jobs and match the suitable ones
+    and save the matched jobs in csv file
+    """

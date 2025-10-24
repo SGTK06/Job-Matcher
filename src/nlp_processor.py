@@ -7,7 +7,7 @@ class NlpProcessor():
     def __init__(self, match_percentage):
         """constructor for processor"""
         self.nlp = spacy.load("en_core_web_md")
-        self.comparisonThreshold = match_percentage
+        self.comparisonThreshold = match_percentage/100 #convert to in range [0, 100]
 
     def tokenizer(self, keyword_list):
         tokens_list = []
@@ -33,8 +33,8 @@ class NlpProcessor():
                 token_score = source_token.similarity(target_token)
 
                 if token_score > best_matched_score:
-                    bestMatchedScore = token_score
-                    bestMatchedToken = target_token
+                    best_matched_score = token_score
+                    best_matched_token = target_token
 
             comparison.append({"sourceToken":source_token, "matchedToken":best_matched_token, "score":best_matched_score})
         return comparison

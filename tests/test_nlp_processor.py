@@ -34,13 +34,13 @@ class TestNlpProcessor(unittest.TestCase):
         self.assertEqual(comparison_score, 0)
 
     def test_compare_proper_lists_of_words(self):
-        source_list = ["run", "jump", "fly", "act", "fight"]
-        target_list = ["running", "jumping", "flying", "acting", "fighting"]
+        source_list = ["run", "jump", "fly", "act", "fight", "cry", "cook"]
+        target_list = ["running", "jumping", "flying", "acting", "fighting", "crying", "cooking"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
-        self.assertEqual(comparison_score , 70)
+        self.assertTrue(comparison_score > 70)
 
     def test_compare_same_lists_of_words(self):
         source_list = ["python", "numpy", "pandas", "agile", "java"]
         target_list = ["python", "numpy", "pandas", "agile", "java"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
-        self.assertEqual(comparison_score , 80)
+        self.assertTrue(comparison_score > 90)

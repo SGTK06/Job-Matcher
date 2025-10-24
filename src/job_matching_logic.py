@@ -30,5 +30,5 @@ def evaluate_job(job_details):
         if comparison_score > 65:
             match_skills = True
     except:
-        print("Given data does not have the details for a job !!!")
+        print("Given data does not have the details of a job !!!")
     return match_skills and match_salary

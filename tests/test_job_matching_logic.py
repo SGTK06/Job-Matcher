@@ -175,6 +175,20 @@ class TestJobMatching(unittest.TestCase):
         suitability = evaluate_job(job_details)
         self.assertTrue(suitability)
 
+    def test_case_when_detail_not_job(self):
+        data_manager = DataManager()
+        data_manager.register_user("userX", "ux@mail.com")
+        data_manager.register_preferences(
+            self.user_skills,
+            self.pref_salary
+        )
+        data_manager.save_preferences()
+
+        job_details = {}
+
+        suitability = evaluate_job(job_details)
+        self.assertFalse(suitability)
+
     """
     @mock.patch("src.data_manager.DataManager.get_user_data", side_effect = get_user_data)
     @mock.patch("src.data_manager.DataManager.get_preferences", side_effect = get_preferences)

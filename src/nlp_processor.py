@@ -19,8 +19,8 @@ class NlpProcessor():
         tokens_list = []
         # split the given list of keywords to tokens to be compared
         for keyword in keyword_list:
-            tokens = self.nlp(keyword)[0]
-            tokens_list.append(tokens)
+            tokens = self.nlp(keyword)
+            tokens_list.extend(tokens)
         return tokens_list
 
     def token_comparison(self, source_tokens, target_tokens):

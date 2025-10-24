@@ -1,5 +1,5 @@
-from data_manager import DataManager
-from nlp_processor import NlpProcessor
+from src.data_manager import DataManager
+from src.nlp_processor import NlpProcessor
 
 
 def evaluate_job(job_details):
@@ -8,3 +8,27 @@ def evaluate_job(job_details):
      - if suitable, True
      - else, False
     """
+    match_salary = False
+    match_skills = False
+
+    data_manager = DataManager()
+    preferences = data_manager.get_preferences()
+    skills = preferences["user_skills"]
+    min_salary = preferences["min_salary"]
+
+    try:
+        job_salary = float(job_details["salary"])
+        if job_salary >= min_salary:
+            match_salary = True
+    except:
+        match_salary = True
+
+    nlp_processor = NlpProcessor(65)
+    try:
+        job_skills = job_details["tags"]
+        comparison_score = nlp_processor.compare_keywords(job_skills, skills)
+        if comparison_score > 65:
+            match_skills = True
+    except:
+        print("Given data does not have the details for a job !!!")
+    return match_skills and match_salary

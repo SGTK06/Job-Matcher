@@ -1,15 +1,22 @@
 import pandas as pd
-from src.config import *
+from src.config import USER_DATA, USER_PREFERENCES
 
 class DataManager:
     """
     class to read csv data and manage the user data in csv files
     """
     def __init__(self):
+        """
+        constructor for data manager
+        """
         self.user_data_frame = pd.read_csv(USER_DATA)
         self.user_preferences = pd.read_csv(USER_PREFERENCES)
 
     def is_signed_in(self):
+        """
+        returns True of user is signed in
+        else, returns false
+        """
         return not self.user_data_frame.empty
 
     def get_user_data(self):
@@ -27,6 +34,10 @@ class DataManager:
         return user_data
 
     def register_user(self, user_name, user_mail):
+        """
+        used for registering user (storing
+        data in dataframe)
+        """
         new_user_data = {
             "user_name": user_name,
             "user_mail": user_mail
@@ -40,6 +51,9 @@ class DataManager:
         return True
 
     def save_user(self):
+        """
+        function to save data in dataframe in csv file
+        """
         self.user_data_frame.to_csv(USER_DATA, index=False, encoding="utf-8")
         return True
 
@@ -99,6 +113,9 @@ class DataManager:
         return not self.user_preferences.empty
 
     def skill_set(self, skill_string):
+        """
+        converts a string of skills to list of skills
+        """
         skills = []
         for skill in skill_string.strip().split(","):
             skills.append(skill.strip())
@@ -106,5 +123,8 @@ class DataManager:
         return skills
 
     def save_preferences(self):
+        """
+        function to save preferences in csv file
+        """
         self.user_preferences.to_csv(USER_PREFERENCES, index=False, encoding="utf-8")
         return True

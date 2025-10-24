@@ -1,3 +1,8 @@
+"""
+File for NLP processing pipeline handler class
+author: Sham Ganesh Thamarai Kannan
+for: FIT2107 D2
+"""
 import spacy
 
 

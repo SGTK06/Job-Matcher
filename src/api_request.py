@@ -1,3 +1,8 @@
+"""
+File with API call handle class
+author: Sham Ganesh Thamarai Kannan
+for: FIR2107 D2
+"""
 import requests
 from fake_useragent import UserAgent
 from src.config import PROXY_NAME, PROXY_AUTH
@@ -20,6 +25,10 @@ class ApiRequest:
         self.request_session = requests.Session()
 
     def create_rotating_proxy(self, proxy_name, proxy_auth):
+        """
+        creates rotating proxies to avoid rate limit or same ip
+        problems for more reliable api querying
+        """
         rotating_proxies = {
             "http": f"http://{proxy_name}:{proxy_auth}@p.webshare.io:80/",
             "https": f"http://{proxy_name}:{proxy_auth}@p.webshare.io:80/"
@@ -47,11 +56,11 @@ class ApiRequest:
 
         if response.status_code == 200:
             return response.json()
-        else:
-            # fallback to normal query
-            response = self.request_session.get(url)
-            if response.status_code == 200:
-                return response.json()
-            else:
-                print("ERROR FETCHING DATA USING API")
-                return {}
+
+        # fallback to normal query
+        response = self.request_session.get(url)
+        if response.status_code == 200:
+            return response.json()
+
+        print("ERROR FETCHING DATA USING API")
+        return {}

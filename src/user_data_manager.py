@@ -129,16 +129,3 @@ class DataManager:
         """
         self.user_preferences.to_csv(USER_PREFERENCES, index=False, encoding="utf-8")
         return True
-
-    def has_matched_listings(self):
-        """returns if the user has listings matched to profile"""
-
-    def register_listing(self):
-        """add new listing to saved listings in a pandas dataframe"""
-
-    def get_listings(self):
-        """get listings saved in the file as a list of Job objects"""
-
-    def save_listings(self):
-        """save the listings in the dataframe to a csv file"""
-

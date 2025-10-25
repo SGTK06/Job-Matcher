@@ -8,7 +8,7 @@ from unittest import mock
 import pandas
 
 from src.job_matching_logic import evaluate_job
-from src.data_manager import DataManager
+from src.user_data_manager import DataManager
 from src.config import USER_DATA, USER_PREFERENCES
 
 def get_user_data(self):

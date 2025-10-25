@@ -1,4 +1,4 @@
-from src.data_manager import DataManager
+from src.user_data_manager import DataManager
 from src.nlp_processor import NlpProcessor
 
 

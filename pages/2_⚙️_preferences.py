@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import streamlit as st
 
 from src.user_input_validation import *
-from src.data_manager import DataManager
+from src.user_data_manager import DataManager
 
 # Set page configuration
 st.set_page_config(

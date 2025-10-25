@@ -2,7 +2,7 @@ import unittest
 import pandas
 from unittest import mock
 
-from src.data_manager import DataManager
+from src.user_data_manager import DataManager
 from src.config import *
 
 class TestDataManager(unittest.TestCase):

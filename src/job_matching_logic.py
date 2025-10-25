@@ -27,7 +27,7 @@ def evaluate_job(job_details):
     try:
         job_skills = job_details["tags"]
         comparison_score = nlp_processor.compare_keywords(job_skills, skills)
-        if comparison_score > 65:
+        if comparison_score >= 65:
             match_skills = True
     except:
         print("Given data does not have the details of a job !!!")

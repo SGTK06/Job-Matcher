@@ -22,17 +22,14 @@ class TestDataManager(unittest.TestCase):
             "min_salary": [10]
         }
 
-        self.set_up_testing_env()
         self.data_manager = DataManager()
 
-    def tearDown(self):
-        self.restore_production_env()
-
-    def set_up_testing_env(self):
+    @classmethod
+    def setUpClass(cls):
         data_manager = DataManager()
         #make deep copy to prevent mutation of user data during testing
-        self._production_user_data = data_manager.user_data_frame.copy(deep=True)
-        self._production_user_pref = data_manager.user_preferences.copy(deep=True)
+        cls._production_user_data = data_manager.user_data_frame.copy(deep=True)
+        cls._production_user_pref = data_manager.user_preferences.copy(deep=True)
 
         #keep headers only
         user_data_headers = pandas.read_csv(USER_DATA, nrows=0)
@@ -40,9 +37,10 @@ class TestDataManager(unittest.TestCase):
         user_data_headers.to_csv(USER_DATA, index=False)
         user_pref_headers.to_csv(USER_PREFERENCES, index=False)
 
-    def restore_production_env(self):
-        self._production_user_data.to_csv(USER_DATA, index=False)
-        self._production_user_pref.to_csv(USER_PREFERENCES, index=False)
+    @classmethod
+    def tearDownClass(cls):
+        cls._production_user_data.to_csv(USER_DATA, index=False)
+        cls._production_user_pref.to_csv(USER_PREFERENCES, index=False)
 
     def test_initialization(self):
         data_manager = DataManager()

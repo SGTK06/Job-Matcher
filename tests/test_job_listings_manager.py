@@ -21,3 +21,8 @@ class TestListingManager(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.production_listings_data.to_csv(SAVED_LISTINGS, index=False)
+
+    def test_initialization(self):
+        listing_manager = ListingManager()
+        self.assertTrue(True)
+

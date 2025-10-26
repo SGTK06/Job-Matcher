@@ -13,11 +13,13 @@ class ListingManager:
         """returns if the user has listings matched to profile"""
         return not self.listings_data_frame.empty
 
-    def register_listing(self):
+    def register_listing(self, new_listing):
         """add new listing to saved listings in a pandas dataframe"""
 
     def get_listings(self):
         """get listings saved in the file as a list of Job objects"""
+        listing_dict = self.listings_data_frame.to_dict(orient="records")
+        return listing_dict
 
     def save_listings(self):
         """save the listings in the dataframe to a csv file"""

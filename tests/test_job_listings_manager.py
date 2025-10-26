@@ -71,7 +71,122 @@ class TestListingManager(unittest.TestCase):
             "candidate_required_location": [],
             "salary": [],
             "description": [],
-            "application_status": [],
+            "application_status": []
         })
         empty_data = []
         self.assertEqual(self.listings_manager.get_listings(), empty_data)
+
+    def test_register_listing_initial(self):
+        self.listings_manager.register_listing({
+            "id": 1,
+            "url": "self.url.link",
+            "title": "job listing",
+            "company_name": "comp",
+            "company_logo": "logo.png",
+            "category": "categotry1",
+            "tags": "skill1",
+            "job_type": "onsite",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "10",
+            "description": "testing",
+            "application_status": "in progress"
+        })
+        self.assertEqual(
+            self.listings_manager.listings_data_frame,
+            pd.DataFrame(self.listings_data)
+        )
+
+    def test_register_listing_duplicate(self):
+        self.listings_manager.register_listing({
+            "id": 1,
+            "url": "self.url.link",
+            "title": "job listing",
+            "company_name": "comp",
+            "company_logo": "logo.png",
+            "category": "categotry1",
+            "tags": "skill1",
+            "job_type": "onsite",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "10",
+            "description": "testing",
+            "application_status": "in progress"
+        })
+        self.listings_manager.register_listing({
+            "id": 1,
+            "url": "self.url.link",
+            "title": "job listing",
+            "company_name": "comp",
+            "company_logo": "logo.png",
+            "category": "categotry1",
+            "tags": "skill1",
+            "job_type": "onsite",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "10",
+            "description": "testing",
+            "application_status": "in progress"
+        })
+        self.assertEqual(
+            self.listings_manager.listings_data_frame,
+            pd.DataFrame(self.listings_data)
+        )
+
+    @mock.patch("pandas.read_csv")
+    def test_register_listing(self, job_df):
+        job_df.return_value = pd.DataFrame(self.listings_data)
+
+        new_manager = ListingManager()
+
+        new_manager.register_listing({
+            "id": 2,
+            "url": "self.url2.link",
+            "title": "job listing2",
+            "company_name": "comp2",
+            "company_logo": "logo2.png",
+            "category": "categotry2",
+            "tags": "skill2",
+            "job_type": "onsite2",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "20",
+            "description": "testing",
+            "application_status": "in progress"
+        })
+
+        return_data = [{
+            "id": 1,
+            "url": "self.url.link",
+            "title": "job listing",
+            "company_name": "comp",
+            "company_logo": "logo.png",
+            "category": "categotry1",
+            "tags": "skill1",
+            "job_type": "onsite",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "10",
+            "description": "testing",
+            "application_status": "in progress"
+        },
+        {
+            "id": 2,
+            "url": "self.url2.link",
+            "title": "job listing2",
+            "company_name": "comp2",
+            "company_logo": "logo2.png",
+            "category": "categotry2",
+            "tags": "skill2",
+            "job_type": "onsite2",
+            "publication_date": "20/10/25",
+            "candidate_required_location": "ny",
+            "salary": "20",
+            "description": "testing",
+            "application_status": "in progress"
+        }]
+
+        self.assertEqual(
+            new_manager.get_listings(),
+            return_data
+        )

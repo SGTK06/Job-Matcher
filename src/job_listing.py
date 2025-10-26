@@ -52,8 +52,26 @@ class JobListing:
         self.application_status = False
 
     def apply(self):
+        """function to apply to the job listing"""
         self.application_status = True
 
     def to_dict(self):
         """converts the processed data into dictionary
         for storage and processing"""
+
+        dict_data = {
+            "id": self.id,
+            "url": self.url,
+            "title": self.title,
+            "company_name": self.company_name,
+            "company_logo": self.company_logo,
+            "category": self.category,
+            "tags": self.req_skills,
+            "job_type": self.job_type,
+            "publication_date": self.publication_date,
+            "candidate_required_location": self.location,
+            "salary": self.salary,
+            "description": self.description,
+            "application_status": self.application_status
+        }
+        return dict_data

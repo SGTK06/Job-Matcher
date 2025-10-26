@@ -96,7 +96,8 @@ class TestjobListing(unittest.TestCase):
             "job_type" : "remote",
             "publication_date" : datetime.fromisoformat("2025-10-24T14:51:03"),
             "candidate_required_location" : "-",
-            "salary" : 1,
-            "description" : "As a QA specializing in TDD."
+            "salary" : 1.0,
+            "description" : "As a QA specializing in TDD.",
+            "application_status": False
         }
-        self.assertEqual
+        self.assertEqual(return_data, job.to_dict())

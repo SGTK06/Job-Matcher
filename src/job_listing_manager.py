@@ -9,9 +9,9 @@ class ListingManager:
     def __init__(self):
         self.listings_data_frame = pd.read_csv(SAVED_LISTINGS)
 
-
     def has_matched_listings(self):
         """returns if the user has listings matched to profile"""
+        return not self.listings_data_frame.empty
 
     def register_listing(self):
         """add new listing to saved listings in a pandas dataframe"""

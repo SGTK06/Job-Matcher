@@ -26,19 +26,19 @@ class TestListingManager(unittest.TestCase):
     def setUp(self):
         self.listings_manager = ListingManager()
         self.listings_data = {
-            "id": 1,
-            "url": "self.url.link",
-            "title": "job listing",
-            "company_name": "comp",
-            "company_logo": "logo.png",
-            "category": "categotry1",
-            "tags": ["skill1", "skill2", "skill3"],
-            "job_type": "onsite",
-            "publication_date": "20/10/25",
-            "candidate_required_location": "ny",
-            "salary": "10",
-            "description": "testing",
-            "application_status": "in progress",
+            "id": [1],
+            "url": ["self.url.link"],
+            "title": ["job listing"],
+            "company_name": ["comp"],
+            "company_logo": ["logo.png"],
+            "category": ["categotry1"],
+            "tags": ["skill1"],
+            "job_type": ["onsite"],
+            "publication_date": ["20/10/25"],
+            "candidate_required_location": ["ny"],
+            "salary": ["10"],
+            "description": ["testing"],
+            "application_status": ["in progress"]
         }
 
     def test_initialization(self):

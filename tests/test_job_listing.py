@@ -71,3 +71,14 @@ class TestjobListing(unittest.TestCase):
         mod_details["salary"] = "Competitive"
         job = JobListing(mod_details)
         self.assertEqual(job.salary, "Competitive")
+
+    def test_applied_initial(self):
+        """tests if the job is applied to initially"""
+        job = JobListing(self.job_details)
+        self.assertFalse(job.application_status)
+
+    def test_status_after_applying(self):
+        """tests if the job is applied to initially"""
+        job = JobListing(self.job_details)
+        job.apply()
+        self.assertTrue(job.application_status)

@@ -82,3 +82,21 @@ class TestjobListing(unittest.TestCase):
         job = JobListing(self.job_details)
         job.apply()
         self.assertTrue(job.application_status)
+
+    def test_dict_format(self):
+        job = JobListing(self.job_details)
+        return_data = self.job_details = {
+            "id": 100,
+            "url": "https://remotive.com/remote-jobs/",
+            "title": "QA",
+            "company_name" : "quantum",
+            "company_logo" : "logo.png",
+            "category" : "testing",
+            "tags" : ["TDD", "CI/CD"],
+            "job_type" : "remote",
+            "publication_date" : datetime.fromisoformat("2025-10-24T14:51:03"),
+            "candidate_required_location" : "-",
+            "salary" : 1,
+            "description" : "As a QA specializing in TDD."
+        }
+        self.assertEqual

@@ -50,3 +50,10 @@ class JobListing:
             self.desciption = job_data["description"]
 
         self.application_status = False
+
+    def apply(self):
+        self.application_status = True
+
+    def to_dict(self):
+        """converts the processed data into dictionary
+        for storage and processing"""

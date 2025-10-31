@@ -35,7 +35,7 @@ class ApiRequest:
         }
         return rotating_proxies
 
-    def get_request(self, url, query_limit):
+    def get_request(self, url, query_limit=None):
         """
         function to query API url and return the response of API
         as a json object.

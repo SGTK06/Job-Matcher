@@ -1,5 +1,9 @@
 from src.user_data_manager import DataManager
 from src.nlp_processor import NlpProcessor
+from src.api_request import ApiRequest
+from src.config import REMOTIVE_API
+from src.job_listing_manager import ListingManager
+from src.job_listing import JobListing
 
 
 def evaluate_job(job_details):
@@ -38,3 +42,21 @@ def search_and_match_jobs(num_jobs):
     Function to search for number of jobs and match the suitable ones
     and save the matched jobs in csv file
     """
+    caller = ApiRequest()
+    api_data = caller.get_request(REMOTIVE_API, num_jobs)
+
+    listing_manager = ListingManager()
+
+    try:
+        job_details = api_data["jobs"]
+
+        for job_detail in job_details:
+            if evaluate_job(job_detail):
+                job = JobListing(job_detail)
+                listing_manager.register_listing(job.to_dict())
+
+        listing_manager.save_listings()
+
+    except KeyError as e:
+        print(e)
+        print("API Response does not have job data!!!!!")

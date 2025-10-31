@@ -93,8 +93,8 @@ class TestListingManager(unittest.TestCase):
             "application_status": "in progress"
         })
         self.assertEqual(
-            self.listings_manager.listings_data_frame,
-            pd.DataFrame(self.listings_data)
+            self.listings_manager.listings_data_frame.to_dict(),
+            pd.DataFrame(self.listings_data).to_dict()
         )
 
     def test_register_listing_duplicate(self):
@@ -129,8 +129,8 @@ class TestListingManager(unittest.TestCase):
             "application_status": "in progress"
         })
         self.assertEqual(
-            self.listings_manager.listings_data_frame,
-            pd.DataFrame(self.listings_data)
+            self.listings_manager.listings_data_frame.to_dict(),
+            pd.DataFrame(self.listings_data).to_dict()
         )
 
     @mock.patch("pandas.read_csv")

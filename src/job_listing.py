@@ -59,6 +59,7 @@ class JobListing:
         """converts the processed data into dictionary
         for storage and processing"""
 
+        tags = ", ".join(self.req_skills)
         dict_data = {
             "id": self.id,
             "url": self.url,
@@ -66,7 +67,7 @@ class JobListing:
             "company_name": self.company_name,
             "company_logo": self.company_logo,
             "category": self.category,
-            "tags": self.req_skills,
+            "tags": tags,
             "job_type": self.job_type,
             "publication_date": self.publication_date,
             "candidate_required_location": self.location,

@@ -92,7 +92,7 @@ class TestjobListing(unittest.TestCase):
             "company_name" : "quantum",
             "company_logo" : "logo.png",
             "category" : "testing",
-            "tags" : ["TDD", "CI/CD"],
+            "tags" : "TDD, CI/CD",
             "job_type" : "remote",
             "publication_date" : datetime.fromisoformat("2025-10-24T14:51:03"),
             "candidate_required_location" : "-",

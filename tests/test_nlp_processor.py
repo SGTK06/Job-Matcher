@@ -33,13 +33,14 @@ BT07. comparison of words with whitespaces should result in a
 class TestNlpProcessor(unittest.TestCase):
     """class to test the functionality of NLP processing pipeline"""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """
         initialize NLP processor once then use for
         comparison
         """
-        self.match_percentage = 70
-        self.nlp_processor = NlpProcessor(self.match_percentage)
+        cls.match_percentage = 70
+        cls.nlp_processor = NlpProcessor(cls.match_percentage)
 
     def test_compare_empty_keywords_lists_bt01(self):
         source_list = []
@@ -83,7 +84,7 @@ class TestNlpProcessor(unittest.TestCase):
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 90)
 
-    def test_spaces(self):
+    def test_spaces_and_blanks_comparison(self):
         source_list = [" ", ""]
         target_list = ["", "  "]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)

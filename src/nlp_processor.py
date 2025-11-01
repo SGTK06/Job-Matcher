@@ -76,7 +76,8 @@ class NlpProcessor():
             source_tokens = self.tokenizer(source_keyword_list)
             target_tokens = self.tokenizer(target_keyword_list)
             # print(target_tokens, source_tokens)
-
+            if source_tokens == [] or target_tokens == []:
+                return 0
             token_comparison = self.token_comparison(source_tokens, target_tokens)
 
             comparison_score = self.comparison_score(token_comparison)

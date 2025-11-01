@@ -26,6 +26,11 @@ Expected:
 2. Return empty dictionary on connection timeout
 3. Return empty dictionary on facing network issues
 4. Proxy creation as per proxy provider (webshare) format
+5. If response code is wrong in attempt 1, use fallback logic
+6. Check max 2 attempts
+
+Mock Usage Documentation:
+
 """
 
 def simulate_await_timeout(url, headers=None, proxies=None, timeout=None):
@@ -41,6 +46,16 @@ def simulate_network_error(url, headers=None, proxies=None, timeout=None):
     error, due to mock, raise error here
     directly"""
     raise requests.exceptions.ConnectionError("Network Connection Error")
+
+
+class MockResp():
+    def __init__(self, response, status_code):
+        self.response = response
+        self.status_code = status_code
+
+    def json(self):
+        return self.response
+
 
 class TestApiRequest(unittest.TestCase):
     """
@@ -89,7 +104,7 @@ class TestApiRequest(unittest.TestCase):
         self.assertEqual(resp, timeout_empty_return)
 
     @mock.patch("requests.Session.get", side_effect=simulate_network_error)
-    def test_simulate_network_error_wt2(self, network):
+    def test_simulate_network_error_wt3(self, network):
         """
         use mocking to simulate connection timeout
         -> use requests exeption for timeout
@@ -98,7 +113,7 @@ class TestApiRequest(unittest.TestCase):
         failed_connection_empty_return = {}
         self.assertEqual(resp, failed_connection_empty_return)
 
-    def test_proxy_header(self):
+    def test_proxy_header_creation_wt4(self):
         proxy_headers = self.caller.create_rotating_proxy(
             "proxyName",
             "proxyAuth"
@@ -108,5 +123,16 @@ class TestApiRequest(unittest.TestCase):
             "https": f"http://proxyName:proxyAuth@p.webshare.io:80/"
         }
         self.assertEqual(proxy_headers, expected_webshare_headers)
+
+    @mock.patch("requests.Session.get")
+    def test_api_call_fallback_logic_wt5(self, mockRequest):
+        mockRequest.side_effect = [
+            MockResp("invalid", 404),
+            MockResp({"repsonse":"valid"}, 200)
+        ]
+        resp = self.caller.get_request(REMOTIVE_API, 5)
+        second_call_response = {"repsonse":"valid"}
+        self.assertEqual(resp, second_call_response)
+
 
 

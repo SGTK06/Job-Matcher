@@ -35,37 +35,50 @@ class TestNlpProcessor(unittest.TestCase):
         self.match_percentage = 70
         self.nlp_processor = NlpProcessor(self.match_percentage)
 
-    def test_initialization(self):
-        #assuming 70% is the required match percentage
-        nlp_processor = NlpProcessor(70)
-        self.assertTrue(True)
-
-    def test_compare_empty_keywords_lists(self):
+    def test_compare_empty_keywords_lists_bt01(self):
         source_list = []
         target_list = []
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_empty_keywords_list_with_proper_list(self):
+    def test_compare_empty_keywords_list_with_proper_list_bt02_a(self):
         source_list = []
         target_list = ["python", "numpy", "pandas", "agile", "java"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_proper_list_with_empty_keywords_list(self):
+    def test_compare_proper_list_with_empty_keywords_list_bt02_b(self):
         source_list = ["python", "numpy", "pandas", "agile", "java"]
         target_list = []
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_proper_lists_of_words(self):
+    def test_compare_proper_lists_of_words_in_diff_tense_bt03(self):
         source_list = ["run", "jump", "fly", "act", "fight", "cry", "cook"]
-        target_list = ["running", "jumping", "flying", "acting", "fighting", "crying", "cooking"]
+        target_list = ["ran", "jumping", "flight", "acting", "fought", "crying", "cooking"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 70)
 
-    def test_compare_same_lists_of_words(self):
+    def test_compare_same_words_with_different_case_bt04(self):
+        source_list = ["python", "java"]
+        target_list = ["PYTHON", "JAVA"]
+        comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 100)
+
+    def test_compare_same_words_with_different_punctuation_symbols_bt05(self):
+        source_list = ["python", "java"]
+        target_list = ["@python..!", "#java$$"]
+        comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 100)
+
+    def test_compare_same_lists_of_words_bt06(self):
         source_list = ["python", "numpy", "pandas", "agile", "java"]
         target_list = ["python", "numpy", "pandas", "agile", "java"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 90)
+
+
+    def test_initialization(self):
+        #assuming 70% is the required match percentage
+        nlp_processor = NlpProcessor(70)
+        self.assertTrue(True)

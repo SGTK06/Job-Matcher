@@ -35,6 +35,10 @@ T08.  successful creation of nlp processor
 T09.  using mock tokens and simplified similarity logic
       test if the comparison score is calculated
       appropriately (mocked to isolate scoring logic)
+      a. comparison of source keywords with target
+      b. comparison of target keywords with source
+        (checking for source subset of target, so
+        scores will change)
 T10.  using mock tokens and simplified similarity to check
       if only tokens with similarity more than or equal to match are
       considered for scoring (mock to isolate token factoring logic)
@@ -44,6 +48,7 @@ T10.  using mock tokens and simplified similarity to check
          a. before match percentage value
          b. at match percentage value
          c. after match percentage value
+T11.  test in case comparison raises error
 """
 
 def nlp_model(word, default_similarity=None):

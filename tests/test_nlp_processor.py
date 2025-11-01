@@ -44,6 +44,29 @@ T09.  using mock tokens and simplified similarity to check
          c. after match percentage value
 """
 
+def nlp_model(word, default_similarity=None):
+    return [FakeToken(word, default_similarity)]
+
+
+class FakeToken:
+    """Fake token class to test similarity evaluation
+    and scoring logic"""
+
+    def __init__(self, word, default_similarity=None):
+        """Fake token constructor"""
+        self.word = word
+        self.default_similarity = default_similarity
+
+    def similarity(self, other):
+        """simple similarity logic"""
+        if self.default_similarity is not None:
+            return self.default_similarity
+        else:
+            if self.word == other.word:
+                return 1
+            else:
+                return 0
+
 
 class TestNlpProcessor(unittest.TestCase):
     """class to test the functionality of NLP processing pipeline"""

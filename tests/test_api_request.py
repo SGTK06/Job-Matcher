@@ -27,9 +27,19 @@ Expected:
 3. Return empty dictionary on facing network issues
 """
 
+class MockResp:
+    def __init__(self, response):
+        self.status_code = 200
+        self.mockResponse = response
+
+    def json(self):
+        return self.mockResponse
+
 def await_timeout(url, headers=None, proxies=None):
-    while True:
-        time.sleep(5)
+    max_wait = 5 #seconds
+    time.sleep(max_wait + 1)
+    resp = MockResp({"resp":"invalid"})
+    return resp
 
 class TestApiRequest(unittest.TestCase):
     """

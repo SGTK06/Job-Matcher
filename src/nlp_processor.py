@@ -15,6 +15,13 @@ class NlpProcessor():
         self.nlp = spacy.load("en_core_web_md")
         self.comparisonThreshold = match_percentage/100  # convert to in range [0, 100]
 
+    def set_nlp_model(self, nlp_model):
+        """
+        Setter for nlp model to mock and change model
+        before testing
+        """
+        self.nlp = nlp_model
+
     def tokenizer(self, keyword_list):
         tokens_list = []
         # split the given list of keywords to tokens to be compared

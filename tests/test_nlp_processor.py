@@ -16,17 +16,32 @@ correctly, and handles edge cases effectively.
 
 Blackbox Tests:
 Expected:
-BT01. comparison of empty lists of keywords returns score of 0
-BT02. comparison with/against an empty list also returns score 0
-BT03. comparison of same words in different tense should result
+T01.  comparison of empty lists of keywords returns score of 0
+T02.  comparison with/against an empty list also returns score 0
+T03.  comparison of same words in different tense should result
       high score
-BT04. comparison of same words in different case should result in
+T04.  comparison of same words in different case should result in
       in a score of 100%
-BT05. comparison of same words surrounded by different puntuation
+T05.  comparison of same words surrounded by different puntuation
       should result in a score of 100%
-BT06. comparison of same words should result in a score of 100%
-BT07. comparison of words with whitespaces should result in a
+T06.  comparison of same words should result in a score of 100%
+T07.  comparison of words with whitespaces should result in a
       score of 0%
+
+Mocking for Tests:
+Expected:
+T08.  using mock tokens and simplified similarity logic
+      test if the comparison score is calculated
+      appropriately (mocked to isolate scoring logic)
+T09.  using mock tokens and simplified similarity to check
+      if only tokens with similarity more than or equal to match are
+      considered for scoring (mock to isolate token factoring logic)
+      ->BVA on match percentage
+        Boundary = match percentage value (3-way BVA)
+        BVA points =>
+         a. before match percentage value
+         b. at match percentage value
+         c. after match percentage value
 """
 
 
@@ -84,7 +99,7 @@ class TestNlpProcessor(unittest.TestCase):
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 90)
 
-    def test_spaces_and_blanks_comparison(self):
+    def test_spaces_and_blanks_comparison_bt07(self):
         source_list = [" ", ""]
         target_list = ["", "  "]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)

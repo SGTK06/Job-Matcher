@@ -25,6 +25,8 @@ BT04. comparison of same words in different case should result in
 BT05. comparison of same words surrounded by different puntuation
       should result in a score of 100%
 BT06. comparison of same words should result in a score of 100%
+BT07. comparison of words with whitespaces should result in a
+      score of 0%
 """
 
 
@@ -81,6 +83,11 @@ class TestNlpProcessor(unittest.TestCase):
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 90)
 
+    def test_spaces(self):
+        source_list = [" ", ""]
+        target_list = ["", "  "]
+        comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 0)
 
     def test_initialization(self):
         #assuming 70% is the required match percentage

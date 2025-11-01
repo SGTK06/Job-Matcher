@@ -6,7 +6,6 @@ for: FIT2107 D2
 import unittest
 from unittest import mock
 
-import time
 import requests
 
 from src.api_request import ApiRequest
@@ -28,12 +27,19 @@ Expected:
 3. Return empty dictionary on facing network issues
 """
 
-def await_timeout(url, headers=None, proxies=None, timeout=None):
+def simulate_await_timeout(url, headers=None, proxies=None, timeout=None):
     """since requests enforces timeout,
     after timeout time it will raise the
     error, due to mock, raise error here
     directly"""
     raise requests.exceptions.Timeout("Timeout Error")
+
+def simulate_network_error(url, headers=None, proxies=None, timeout=None):
+    """since requests checks for network,
+    after connection failure it will raise the
+    error, due to mock, raise error here
+    directly"""
+    raise requests.exceptions.ConnectionError("Network Connection Error")
 
 class TestApiRequest(unittest.TestCase):
     """
@@ -71,7 +77,7 @@ class TestApiRequest(unittest.TestCase):
         new_caller = ApiRequest()
         self.assertTrue(True)
 
-    @mock.patch("requests.Session.get", side_effect=await_timeout)
+    @mock.patch("requests.Session.get", side_effect=simulate_await_timeout)
     def test_simulate_connection_timeout_wt2(self, timeout):
         """
         use mocking to simulate connection timeout
@@ -81,4 +87,13 @@ class TestApiRequest(unittest.TestCase):
         timeout_empty_return = {}
         self.assertEqual(resp, timeout_empty_return)
 
+    @mock.patch("requests.Session.get", side_effect=simulate_network_error)
+    def test_simulate_network_error_wt2(self, network):
+        """
+        use mocking to simulate connection timeout
+        -> use requests exeption for timeout
+        """
+        resp = self.caller.get_request(REMOTIVE_API, 5)
+        failed_connection_empty_return = {}
+        self.assertEqual(resp, failed_connection_empty_return)
 

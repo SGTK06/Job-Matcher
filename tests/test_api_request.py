@@ -25,8 +25,11 @@ Expected:
 class TestApiRequest(unittest.TestCase):
     """
     class to test if the API caller works as expected
+    code: btX -> bt - black box test, X-test number
+          wtX -> bt - white box test, X-test number
     """
     def setUp(self):
+        """create the caller object"""
         self.caller = ApiRequest()
 
     def test_response_format_bt1(self):
@@ -36,3 +39,13 @@ class TestApiRequest(unittest.TestCase):
         """
         resp = self.caller.get_request(REMOTIVE_API, 5)
         self.assertEqual(type(resp), dict)
+
+    def test_invalid_api_call_bt2(self):
+        """
+        tests if the caller returns an empty
+        dictionary if a response is requested from
+        invalid API
+        """
+        resp = self.caller.get_request("httpx://invalid-api.moc")
+        empty_response = {}
+        self.assertEqual(resp, empty_response)

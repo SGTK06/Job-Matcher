@@ -150,7 +150,7 @@ class TestNlpProcessor(unittest.TestCase):
     def test_isolated_scoring_logic_target_to_source_t09b(self):
         """since source has everything in target, score should be 100"""
         source_list = ["java", "python", "math", "physics", "engineering"]
-        target_list = ["java", "python", "math", "physics", "engineering", "javascript", "html", "data science", "ai", "ml"]
+        target_list = ["java", "python", "math", "physics", "engineering", "css", "html", "data science", "ai", "ml"]
 
         mock_processor = NlpProcessor(70)
         mock_processor.set_nlp_model(nlp_model)

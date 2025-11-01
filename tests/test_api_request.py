@@ -3,6 +3,7 @@ File to test the API call handle class
 author: Sham Ganesh Thamarai Kannan
 for: FIT2107 D2
 """
+
 import unittest
 from unittest import mock
 
@@ -29,6 +30,7 @@ Expected:
 5. If response code is wrong in attempt 1, use fallback logic
 6. Check max 2 attempts
 7. Return empty dictionary after 2 attempts
+8. Test call count 1 in case of error
 
 Mock Usage Documentation:
 
@@ -55,6 +57,15 @@ class RequestCountTracker:
         cls.req_count += 1
         return MockResp("invalid", 404)
 
+    @classmethod
+    def tracked_request_raises_exception(cls, url, headers=None, proxies=None, timeout=None):
+        cls.req_count += 1
+        raise requests.exceptions.RequestException
+
+    @classmethod
+    def reset_count(cls):
+        cls.req_count = 0
+
 class MockResp():
     def __init__(self, response, status_code):
         self.response = response
@@ -73,6 +84,10 @@ class TestApiRequest(unittest.TestCase):
     def setUp(self):
         """create the caller object"""
         self.caller = ApiRequest()
+
+    def tearDown(self):
+        """reset count to prep for other test"""
+        RequestCountTracker.reset_count()
 
     def test_response_format_bt1(self):
         """
@@ -166,9 +181,8 @@ class TestApiRequest(unittest.TestCase):
         test to check if the caller returns empty
         dictionary if call fails, no error raised.
         """
-        mockRequest.side_effect = RequestCountTracker.tracked_request
-        resp = self.caller.get_request(REMOTIVE_API, 5)
-        count_exceeded_resp = {}
-        self.assertEqual(resp, count_exceeded_resp)
+        mockRequest.side_effect = RequestCountTracker.tracked_request_raises_exception
+        self.caller.get_request(REMOTIVE_API, 5)
+        self.assertEqual(RequestCountTracker.req_count, 1)
 
 

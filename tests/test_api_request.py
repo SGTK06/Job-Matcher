@@ -25,6 +25,7 @@ Expected:
 1. Successful caller creation
 2. Return empty dictionary on connection timeout
 3. Return empty dictionary on facing network issues
+4. Proxy creation as per proxy provider (webshare) format
 """
 
 def simulate_await_timeout(url, headers=None, proxies=None, timeout=None):
@@ -96,4 +97,16 @@ class TestApiRequest(unittest.TestCase):
         resp = self.caller.get_request(REMOTIVE_API, 5)
         failed_connection_empty_return = {}
         self.assertEqual(resp, failed_connection_empty_return)
+
+    def test_proxy_header(self):
+        proxy_headers = self.caller.create_rotating_proxy(
+            "proxyName",
+            "proxyAuth"
+        )
+        expected_webshare_headers = {
+            "http": f"http://proxyName:proxyAuth@p.webshare.io:80/",
+            "https": f"http://proxyName:proxyAuth@p.webshare.io:80/"
+        }
+        self.assertEqual(proxy_headers, expected_webshare_headers)
+
 

@@ -36,7 +36,7 @@ class NlpProcessor():
             best_matched_score = 0
             # find best match in target tokens
             for target_token in target_tokens:
-                token_score = source_token.similarity(target_token)
+                token_score = self.compare_token_similarity(source_token, target_token)
 
                 if token_score > best_matched_score:
                     best_matched_score = token_score
@@ -79,3 +79,26 @@ class NlpProcessor():
 
         comparison_score = self.comparison_score(token_comparison)
         return comparison_score
+
+    def compare_token_similarity(self, token1, token2):
+        """use simple string based matching and use token
+        comparison only if needed"""
+        try:
+            word1 = (token1.lemma_).lower()
+            word2 = (token2.lemma_).lower()
+            #to allow for context aware matching regardless of tense, lemmatize tokens
+            #sources:
+            # https://stackoverflow.com/questions/10851959/how-can-i-match-words-regardless-of-tense-or-form
+            # https://www.geeksforgeeks.org/nlp/lemmatization-vs-stemming-a-deep-dive-into-nlps-text-normalization-techniques/
+
+            if (word1 in word2) or (word2 in word1):
+                token_score = 1.0
+            else:
+                token_score = token1.similarity(token2)
+            return token_score
+
+        except:
+            # in case matching fails, fallback to manual score setting to
+            # avoid errors
+            token_score = 0.0
+            return token_score

@@ -52,14 +52,19 @@ class ApiRequest:
             response = self.request_session.get(
                 url,
                 headers=self.access_headers,
-                proxies=self.rotating_proxy
+                proxies=self.rotating_proxy,
+                timeout=5
             )
 
             if response.status_code == 200:
                 return response.json()
 
             # fallback to normal query
-            response = self.request_session.get(url)
+            response = self.request_session.get(
+                url,
+                timeout=5
+            )
+
             if response.status_code == 200:
                 return response.json()
 

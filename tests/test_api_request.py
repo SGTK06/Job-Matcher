@@ -7,6 +7,7 @@ import unittest
 from unittest import mock
 
 import time
+import requests
 
 from src.api_request import ApiRequest
 from src.config import REMOTIVE_API
@@ -27,19 +28,12 @@ Expected:
 3. Return empty dictionary on facing network issues
 """
 
-class MockResp:
-    def __init__(self, response):
-        self.status_code = 200
-        self.mockResponse = response
-
-    def json(self):
-        return self.mockResponse
-
-def await_timeout(url, headers=None, proxies=None):
-    max_wait = 5 #seconds
-    time.sleep(max_wait + 1)
-    resp = MockResp({"resp":"invalid"})
-    return resp
+def await_timeout(url, headers=None, proxies=None, timeout=None):
+    """since requests enforces timeout,
+    after timeout time it will raise the
+    error, due to mock, raise error here
+    directly"""
+    raise requests.exceptions.Timeout("Timeout Error")
 
 class TestApiRequest(unittest.TestCase):
     """

@@ -181,6 +181,17 @@ class TestApiRequest(unittest.TestCase):
         test to check if the caller returns empty
         dictionary if call fails, no error raised.
         """
+        mockRequest.side_effect = RequestCountTracker.tracked_request
+        resp = self.caller.get_request(REMOTIVE_API, 5)
+        count_exceeded_resp = {}
+        self.assertEqual(resp, count_exceeded_resp)
+
+    @mock.patch("requests.Session.get")
+    def test_request_count_error_wt8(self, mockRequest):
+        """
+        test to check if the caller requests api
+        repsone only once in case of error
+        """
         mockRequest.side_effect = RequestCountTracker.tracked_request_raises_exception
         self.caller.get_request(REMOTIVE_API, 5)
         self.assertEqual(RequestCountTracker.req_count, 1)

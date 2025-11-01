@@ -50,6 +50,7 @@ def simulate_network_error(url, headers=None, proxies=None, timeout=None):
     directly"""
     raise requests.exceptions.ConnectionError("Network Connection Error")
 
+
 class RequestCountTracker:
     req_count = 0
     @classmethod
@@ -65,6 +66,7 @@ class RequestCountTracker:
     @classmethod
     def reset_count(cls):
         cls.req_count = 0
+
 
 class MockResp():
     def __init__(self, response, status_code):

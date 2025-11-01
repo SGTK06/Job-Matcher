@@ -1,9 +1,19 @@
+"""
+File to test the user data manager class
+author: Sham Ganesh Thamarai Kannan
+for: FIT2107 D2
+"""
+
 import unittest
 import pandas
 from unittest import mock
 
 from src.user_data_manager import DataManager
 from src.config import *
+
+"""
+"""
+
 
 class TestDataManager(unittest.TestCase):
     """

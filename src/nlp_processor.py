@@ -71,13 +71,16 @@ class NlpProcessor():
 
     def compare_keywords(self, source_keyword_list, target_keyword_list):
         """compares keywords in source keyword list and target keyword list"""
-        source_tokens = self.tokenizer(source_keyword_list)
-        target_tokens = self.tokenizer(target_keyword_list)
-        # print(target_tokens, source_tokens)
+        if (source_keyword_list != []) and (target_keyword_list != []):
+            source_tokens = self.tokenizer(source_keyword_list)
+            target_tokens = self.tokenizer(target_keyword_list)
+            # print(target_tokens, source_tokens)
 
-        token_comparison = self.token_comparison(source_tokens, target_tokens)
+            token_comparison = self.token_comparison(source_tokens, target_tokens)
 
-        comparison_score = self.comparison_score(token_comparison)
+            comparison_score = self.comparison_score(token_comparison)
+        else:
+            comparison_score = 0
         return comparison_score
 
     def compare_token_similarity(self, token1, token2):

@@ -32,6 +32,10 @@ class TestNlpProcessor(unittest.TestCase):
     """class to test the functionality of NLP processing pipeline"""
 
     def setUp(self):
+        """
+        initialize NLP processor once then use for
+        comparison
+        """
         self.match_percentage = 70
         self.nlp_processor = NlpProcessor(self.match_percentage)
 

@@ -45,22 +45,37 @@ class ApiRequest:
         returns:
          - response : in json format
          """
-        if query_limit is not None:
-            url = url + f"?limit={query_limit}"
+        try:
+            if query_limit is not None:
+                url = url + f"?limit={query_limit}"
 
-        response = self.request_session.get(
-            url,
-            headers=self.access_headers,
-            proxies=self.rotating_proxy
-        )
+            response = self.request_session.get(
+                url,
+                headers=self.access_headers,
+                proxies=self.rotating_proxy
+            )
 
-        if response.status_code == 200:
-            return response.json()
+            if response.status_code == 200:
+                return response.json()
 
-        # fallback to normal query
-        response = self.request_session.get(url)
-        if response.status_code == 200:
-            return response.json()
+            # fallback to normal query
+            response = self.request_session.get(url)
+            if response.status_code == 200:
+                return response.json()
 
-        print("ERROR FETCHING DATA USING API")
-        return {}
+            print("ERROR FETCHING DATA USING API")
+            return {}
+
+        except requests.exceptions.RequestException as req_except:
+            """
+            source: https://www.geeksforgeeks.org/python/exception-handling-of-python-requests-module/
+            exception handler for all the request exception
+             - invalid URL
+             - invalid format
+             - connection timeout
+             - network error
+             etc.
+            """
+            print(req_except)
+            return {}
+

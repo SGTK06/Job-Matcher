@@ -28,6 +28,7 @@ Expected:
 4. Proxy creation as per proxy provider (webshare) format
 5. If response code is wrong in attempt 1, use fallback logic
 6. Check max 2 attempts
+7. Return empty dictionary after 2 attempts
 
 Mock Usage Documentation:
 
@@ -47,6 +48,12 @@ def simulate_network_error(url, headers=None, proxies=None, timeout=None):
     directly"""
     raise requests.exceptions.ConnectionError("Network Connection Error")
 
+class RequestCountTracker:
+    req_count = 0
+    @classmethod
+    def tracked_request(cls, url, headers=None, proxies=None, timeout=None):
+        cls.req_count += 1
+        return MockResp("invalid", 404)
 
 class MockResp():
     def __init__(self, response, status_code):
@@ -114,6 +121,10 @@ class TestApiRequest(unittest.TestCase):
         self.assertEqual(resp, failed_connection_empty_return)
 
     def test_proxy_header_creation_wt4(self):
+        """
+        test if webshare proxy headers are of the
+        expected format
+        """
         proxy_headers = self.caller.create_rotating_proxy(
             "proxyName",
             "proxyAuth"
@@ -126,6 +137,10 @@ class TestApiRequest(unittest.TestCase):
 
     @mock.patch("requests.Session.get")
     def test_api_call_fallback_logic_wt5(self, mockRequest):
+        """
+        test if caller uses fallback method if first
+        call returns invalid response status code
+        """
         mockRequest.side_effect = [
             MockResp("invalid", 404),
             MockResp({"repsonse":"valid"}, 200)
@@ -134,5 +149,26 @@ class TestApiRequest(unittest.TestCase):
         second_call_response = {"repsonse":"valid"}
         self.assertEqual(resp, second_call_response)
 
+    @mock.patch("requests.Session.get")
+    def test_api_request_count_limit_wt6(self, mockRequest):
+        """
+        test to check of the maximum times the caller
+        can query the api is 2.
+        """
+        mockRequest.side_effect = RequestCountTracker.tracked_request
+        self.caller.get_request(REMOTIVE_API, 5)
+        max_requests_allowed = 2
+        self.assertTrue(RequestCountTracker.req_count <= max_requests_allowed)
+
+    @mock.patch("requests.Session.get")
+    def test_request_limit_exceeded_response_wt7(self, mockRequest):
+        """
+        test to check if the caller returns empty
+        dictionary if call fails, no error raised.
+        """
+        mockRequest.side_effect = RequestCountTracker.tracked_request
+        resp = self.caller.get_request(REMOTIVE_API, 5)
+        count_exceeded_resp = {}
+        self.assertEqual(resp, count_exceeded_resp)
 
 

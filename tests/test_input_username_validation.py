@@ -48,7 +48,7 @@ T07         6                   2                       4                   FALS
 
 """
 
-class TestInputValidation(unittest.TestCase):
+class TestUsernameInputValidation(unittest.TestCase):
     """class to test the validation logic of the user name input"""
 
     def test_short_user_name_t01(self):

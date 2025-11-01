@@ -1,9 +1,8 @@
-Mail Address Name: Absent, Present
+Mail Address Name >=3 chars: False, True
 Name in Legal Characters: False, True
 Has "@" separator: False, True
-Mail Domain: Absent, Present
+Mail Domain >=3 chars: False, True
 Domain in Legal Characters: False, True
 Has "." separator: False, True
-Top Level Domain (TLD): Absent, Present
+Top Level Domain (TLD) >=2 chars: False, True
 TLD within Legal Characters: False, True
-TLD has atleast 2 characters: False, True

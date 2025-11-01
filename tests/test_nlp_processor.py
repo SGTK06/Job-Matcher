@@ -6,6 +6,7 @@ for: FIT2107 D1 - Custom Project - Job Matcher
 """
 
 import unittest
+from unittest import mock
 
 from src.nlp_processor import NlpProcessor
 import spacy
@@ -28,12 +29,13 @@ T06.  comparison of same words should result in a score of 100%
 T07.  comparison of words with whitespaces should result in a
       score of 0%
 
-Mocking for Tests:
+Whitebox and Mocking Tests:
 Expected:
-T08.  using mock tokens and simplified similarity logic
+T08.  successful creation of nlp processor
+T09.  using mock tokens and simplified similarity logic
       test if the comparison score is calculated
       appropriately (mocked to isolate scoring logic)
-T09.  using mock tokens and simplified similarity to check
+T10.  using mock tokens and simplified similarity to check
       if only tokens with similarity more than or equal to match are
       considered for scoring (mock to isolate token factoring logic)
       ->BVA on match percentage
@@ -45,6 +47,7 @@ T09.  using mock tokens and simplified similarity to check
 """
 
 def nlp_model(word, default_similarity=None):
+    """mock nlp model to return a list of fake tokens"""
     return [FakeToken(word, default_similarity)]
 
 
@@ -54,6 +57,7 @@ class FakeToken:
 
     def __init__(self, word, default_similarity=None):
         """Fake token constructor"""
+        self.lemma_ = word
         self.word = word
         self.default_similarity = default_similarity
 
@@ -80,55 +84,75 @@ class TestNlpProcessor(unittest.TestCase):
         cls.match_percentage = 70
         cls.nlp_processor = NlpProcessor(cls.match_percentage)
 
-    def test_compare_empty_keywords_lists_bt01(self):
+    def test_compare_empty_keywords_lists_t01(self):
         source_list = []
         target_list = []
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_empty_keywords_list_with_proper_list_bt02_a(self):
+    def test_compare_empty_keywords_list_with_proper_list_t02_a(self):
         source_list = []
         target_list = ["python", "numpy", "pandas", "agile", "java"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_proper_list_with_empty_keywords_list_bt02_b(self):
+    def test_compare_proper_list_with_empty_keywords_list_t02_b(self):
         source_list = ["python", "numpy", "pandas", "agile", "java"]
         target_list = []
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_compare_proper_lists_of_words_in_diff_tense_bt03(self):
+    def test_compare_proper_lists_of_words_in_diff_tense_t03(self):
         source_list = ["run", "jump", "fly", "act", "fight", "cry", "cook"]
         target_list = ["ran", "jumping", "flight", "acting", "fought", "crying", "cooking"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 70)
 
-    def test_compare_same_words_with_different_case_bt04(self):
+    def test_compare_same_words_with_different_case_t04(self):
         source_list = ["python", "java"]
         target_list = ["PYTHON", "JAVA"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 100)
 
-    def test_compare_same_words_with_different_punctuation_symbols_bt05(self):
+    def test_compare_same_words_with_different_punctuation_symbols_t05(self):
         source_list = ["python", "java"]
         target_list = ["@python..!", "#java$$"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 100)
 
-    def test_compare_same_lists_of_words_bt06(self):
+    def test_compare_same_lists_of_words_t06(self):
         source_list = ["python", "numpy", "pandas", "agile", "java"]
         target_list = ["python", "numpy", "pandas", "agile", "java"]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertTrue(comparison_score > 90)
 
-    def test_spaces_and_blanks_comparison_bt07(self):
+    def test_spaces_and_blanks_comparison_t07(self):
         source_list = [" ", ""]
         target_list = ["", "  "]
         comparison_score = self.nlp_processor.compare_keywords(source_list, target_list)
         self.assertEqual(comparison_score, 0)
 
-    def test_initialization(self):
+    def test_initialization_t08(self):
         #assuming 70% is the required match percentage
         nlp_processor = NlpProcessor(70)
         self.assertTrue(True)
+
+    def test_isolated_scoring_logic_source_to_target_t09a(self):
+        """since source has everything in target, score should be 100"""
+        source_list = ["java", "python", "math", "physics", "engineering"]
+        target_list = ["java", "python", "math", "physics", "engineering", "c", "c#", "data science", "ai", "ml"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(nlp_model)
+        comparison_score = mock_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 100)
+
+    def test_isolated_scoring_logic_target_to_source_t09b(self):
+        """since source has everything in target, score should be 100"""
+        source_list = ["java", "python", "math", "physics", "engineering"]
+        target_list = ["java", "python", "math", "physics", "engineering", "javascript", "html", "data science", "ai", "ml"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(nlp_model)
+        comparison_score = mock_processor.compare_keywords(target_list, source_list)
+        self.assertEqual(comparison_score, 50)

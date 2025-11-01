@@ -92,7 +92,7 @@ class NlpProcessor():
             comparison_score = 0
         return comparison_score
 
-    def compare_token_similarity(self, token1, token2):
+    def compare_token_similarity(self, token1, token2) -> float:
         """use simple string based matching and use token
         comparison only if needed"""
         try:
@@ -102,9 +102,11 @@ class NlpProcessor():
             #sources:
             # https://stackoverflow.com/questions/10851959/how-can-i-match-words-regardless-of-tense-or-form
             # https://www.geeksforgeeks.org/nlp/lemmatization-vs-stemming-a-deep-dive-into-nlps-text-normalization-techniques/
-
-            if (word1 in word2) or (word2 in word1):
-                token_score = 1.0
+            if len(word1) > 3 and len(word2) > 3:
+                if (word1 in word2) or (word2 in word1):
+                    token_score = 1.0
+                else:
+                    token_score = token1.similarity(token2)
             else:
                 token_score = token1.similarity(token2)
             return token_score

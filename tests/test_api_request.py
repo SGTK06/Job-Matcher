@@ -75,7 +75,7 @@ class TestApiRequest(unittest.TestCase):
     def test_simulate_connection_timeout_wt2(self, timeout):
         """
         use mocking to simulate connection timeout
-        -> use time to wait for timeout
+        -> use requests exeption for timeout
         """
         resp = self.caller.get_request(REMOTIVE_API, 5)
         timeout_empty_return = {}

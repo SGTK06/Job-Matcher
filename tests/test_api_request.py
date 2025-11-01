@@ -4,6 +4,9 @@ author: Sham Ganesh Thamarai Kannan
 for: FIT2107 D2
 """
 import unittest
+from unittest import mock
+
+import time
 
 from src.api_request import ApiRequest
 from src.config import REMOTIVE_API
@@ -19,9 +22,15 @@ Expected:
 
 Whitebox Tests:
 Expected:
-1. Return empty dictionary on connection timeout
-2. Return empty dictionary on facing network issues
+1. Successful caller creation
+2. Return empty dictionary on connection timeout
+3. Return empty dictionary on facing network issues
 """
+
+def await_timeout(url, headers=None, proxies=None):
+    while True:
+        time.sleep(5)
+
 class TestApiRequest(unittest.TestCase):
     """
     class to test if the API caller works as expected
@@ -49,3 +58,23 @@ class TestApiRequest(unittest.TestCase):
         resp = self.caller.get_request("httpx://invalid-api.moc")
         empty_response = {}
         self.assertEqual(resp, empty_response)
+
+    def test_caller_creation_wt1(self):
+        """
+        Test if the caller object is successfully.
+        (testing __init__)
+        """
+        new_caller = ApiRequest()
+        self.assertTrue(True)
+
+    @mock.patch("requests.Session.get", side_effect=await_timeout)
+    def test_simulate_connection_timeout_wt2(self, timeout):
+        """
+        use mocking to simulate connection timeout
+        -> use time to wait for timeout
+        """
+        resp = self.caller.get_request(REMOTIVE_API, 5)
+        timeout_empty_return = {}
+        self.assertEqual(resp, timeout_empty_return)
+
+

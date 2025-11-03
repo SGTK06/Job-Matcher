@@ -38,7 +38,7 @@ Whitebox Tests:
 WT01. Test file does not exist case
       (to check if file not dound error is handled)
 """
-def raise_fnf_error():
+def raise_fnf_error(file):
     raise FileNotFoundError
 
 

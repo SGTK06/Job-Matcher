@@ -53,7 +53,7 @@ class ApiRequest:
                 url,
                 headers=self.access_headers,
                 proxies=self.rotating_proxy,
-                timeout=5
+                timeout=15
             )
 
             if response.status_code == 200:

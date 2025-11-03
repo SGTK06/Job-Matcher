@@ -61,3 +61,8 @@ class TestMailInputValidation(unittest.TestCase):
         mail = "*@do^.com"
         valid = validate_email(mail)
         self.assertFalse(valid)
+
+    def test_double_tld_t_edge(self):
+        mail = "stha0083@student.monash.edu"
+        valid = validate_email(mail)
+        self.assertTrue(valid)

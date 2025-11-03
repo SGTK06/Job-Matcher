@@ -46,7 +46,7 @@ class TestjobListing(unittest.TestCase):
     def test_description_format(self):
         """tests of returned description is formatted correctly"""
         job = JobListing(self.job_details)
-        self.assertEqual(job.description, "As a QA specializing in TDD.")
+        self.assertEqual(job.description, "As a QA specializing in TDD. Key Responsibilities:")
 
     def test_description_non_html_format(self):
         """tests if class converts API return data format
@@ -97,7 +97,7 @@ class TestjobListing(unittest.TestCase):
             "publication_date" : datetime.fromisoformat("2025-10-24T14:51:03"),
             "candidate_required_location" : "-",
             "salary" : 1.0,
-            "description" : "As a QA specializing in TDD.",
+            "description" : "As a QA specializing in TDD. Key Responsibilities:",
             "application_status": False
         }
         self.assertEqual(return_data, job.to_dict())

@@ -1,0 +1,13 @@
+pylint
+pycodestyle
+
+#requirements for custom project
+pandas
+spacy
+fake_useragent
+streamlit
+requests
+bs4
+
+#H2
+pygame

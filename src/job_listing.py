@@ -7,6 +7,7 @@ author: Sham Ganesh Thamarai Kannan
 for: FIT2107 D2
 """
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 class JobListing:
     """
@@ -45,8 +46,8 @@ class JobListing:
             self.salary = job_data["salary"]
 
         try:
-            self.description = job_data["description"].split(r"</p>")[0].strip(r"<p>")
-        except TypeError:
+            self.description = BeautifulSoup(job_data["description"],"html.parser").get_text()
+        except:
             self.desciption = job_data["description"]
 
         self.application_status = False

@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from src.config import USER_DATA, USER_PREFERENCES, SAVED_LISTINGS
 
@@ -12,6 +13,56 @@ class DataManager:
         self.user_data_frame = pd.read_csv(USER_DATA)
         self.user_preferences = pd.read_csv(USER_PREFERENCES)
         self.saved_listings = pd.read_csv(SAVED_LISTINGS)
+
+    def load_file_or_create(self, filepath, columns):
+        try:
+            # Try to read the existing csv
+            df = pd.read_csv(filepath)
+            return df
+
+        except FileNotFoundError:
+            print(f"File not found: {filepath}")
+            print(f"Creating new file with columns: {columns}")
+
+            # Ensure directory exists
+            directory = os.path.dirname(filepath)
+            if directory and not os.path.exists(directory):
+                os.makedirs(directory, exist_ok=True)
+                print(f"Created directory: {directory}")
+
+            # Create empty df with columns
+            df = pd.DataFrame(columns=columns)
+
+            # Save the empty DataFrame to create the file
+            df.to_csv(filepath, index=False, encoding="utf-8")
+            print(f"Created new CSV file: {filepath}")
+
+            return df
+
+        except pd.errors.EmptyDataError:
+            # File exists but is empty
+            print(f"File is empty: {filepath}")
+            print(f"Initializing with columns: {columns}")
+
+            df = pd.DataFrame(columns=columns)
+            df.to_csv(filepath, index=False, encoding="utf-8")
+
+            return df
+
+        except Exception as e:
+            # handle other unexpected errors
+            print(f"Error loading {filepath}: {e}")
+            print(f"Creating new file with columns: {columns}")
+
+            # check if dir exists
+            directory = os.path.dirname(filepath)
+            if directory and not os.path.exists(directory):
+                os.makedirs(directory, exist_ok=True)
+
+            df = pd.DataFrame(columns=columns)
+            df.to_csv(filepath, index=False, encoding="utf-8")
+
+            return df
 
     def is_signed_in(self):
         """

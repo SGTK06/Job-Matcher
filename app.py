@@ -2,6 +2,7 @@ import os
 import streamlit as st
 
 # Disable Streamlit file watcher errors on torch
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 os.environ["STREAMLIT_SERVER_FILE_WATCHER_TYPE"] = "none"
 
 from src.job_matching_logic import search_and_match_jobs
@@ -24,7 +25,7 @@ st.write(
 num_jobs = st.number_input(
     "Number of jobs to fetch:",
     min_value=10,
-    max_value=200,
+    max_value=1500,
     step=10,
     value=50,
 )

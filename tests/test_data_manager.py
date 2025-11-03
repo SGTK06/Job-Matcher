@@ -41,6 +41,9 @@ WT01. Test file does not exist case
 def raise_fnf_error(file):
     raise FileNotFoundError
 
+def raise_empty_file_error(file):
+    raise pandas.errors.EmptyDataError
+
 
 class TestDataManager(unittest.TestCase):
     """
@@ -174,8 +177,14 @@ class TestDataManager(unittest.TestCase):
         self.assertEqual(self.data_manager.get_preferences(), return_data)
 
     @mock.patch("pandas.read_csv")
-    def test_missing_file_error_handled_wt01(self, reader):
+    def test_missing_file_error_handled_wt01_a(self, reader):
         reader.side_effect = raise_fnf_error
+        new_manager = DataManager()
+        self.assertTrue(True)
+
+    @mock.patch("pandas.read_csv")
+    def test_empty_file_error_handled_wt01_b(self, reader):
+        reader.side_effect = raise_empty_file_error
         new_manager = DataManager()
         self.assertTrue(True)
 

@@ -10,9 +10,28 @@ class DataManager:
         """
         constructor for data manager
         """
-        self.user_data_frame = pd.read_csv(USER_DATA)
-        self.user_preferences = pd.read_csv(USER_PREFERENCES)
-        self.saved_listings = pd.read_csv(SAVED_LISTINGS)
+        self.user_data_columns = ["user_name", "user_mail"]
+        self.preferences_columns = ["user_skills", "min_salary"]
+        self.listings_columns = [
+            "id", "url", "title", "company_name", "company_logo",
+            "category", "tags", "job_type", "publication_date",
+            "candidate_required_location", "salary", "description",
+            "application_status"
+        ]
+
+        self.user_data_frame = self.load_file_or_create(
+            USER_DATA,
+            self.user_data_columns
+        )
+
+        self.user_preferences = self.load_file_or_create(
+            USER_PREFERENCES,
+            self.preferences_columns
+        )
+        self.saved_listings = self.load_file_or_create(
+            SAVED_LISTINGS,
+            self.listings_columns
+        )
 
     def load_file_or_create(self, filepath, columns):
         try:
@@ -24,23 +43,23 @@ class DataManager:
             print(f"File not found: {filepath}")
             print(f"Creating new file with columns: {columns}")
 
-            # Ensure directory exists
+            # chk directory exists
             directory = os.path.dirname(filepath)
             if directory and not os.path.exists(directory):
                 os.makedirs(directory, exist_ok=True)
                 print(f"Created directory: {directory}")
 
-            # Create empty df with columns
+            # create empty df with columns
             df = pd.DataFrame(columns=columns)
 
-            # Save the empty DataFrame to create the file
+            # save the empty df to create the file
             df.to_csv(filepath, index=False, encoding="utf-8")
             print(f"Created new CSV file: {filepath}")
 
             return df
 
         except pd.errors.EmptyDataError:
-            # File exists but is empty
+            # file is empty
             print(f"File is empty: {filepath}")
             print(f"Initializing with columns: {columns}")
 

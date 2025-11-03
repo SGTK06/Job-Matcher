@@ -37,6 +37,7 @@ BT13. Register Preferences processes preferences to correct data format
 Whitebox Tests:
 WT01. Test file does not exist case
       (to check if file not dound error is handled)
+WT02. Test save input is of the wrong type
 """
 def raise_fnf_error(file):
     raise FileNotFoundError
@@ -188,3 +189,12 @@ class TestDataManager(unittest.TestCase):
         new_manager = DataManager()
         self.assertTrue(True)
 
+    def test_register_preferences_with_invalid_salary(self):
+        self.data_manager.register_preferences("skill1, skill2", "hundred")
+        pref = self.data_manager.get_preferences()
+        self.assertEqual(pref["min_salary"], 0)
+
+    def test_register_preferences_with_invalid_skills(self):
+        self.data_manager.register_preferences(1234, 10)
+        pref = self.data_manager.get_preferences()
+        self.assertEqual(pref["min_salary"], 0)

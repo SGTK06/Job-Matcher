@@ -53,7 +53,7 @@ class ApiRequest:
                 url,
                 headers=self.access_headers,
                 proxies=self.rotating_proxy,
-                timeout=15
+                timeout=45
             )
 
             if response.status_code == 200:
@@ -62,7 +62,7 @@ class ApiRequest:
             # fallback to normal query
             response = self.request_session.get(
                 url,
-                timeout=5
+                timeout=30
             )
 
             if response.status_code == 200:

@@ -155,7 +155,7 @@ class DataManager:
             user_pref = self.user_preferences.fillna("").iloc[0].to_dict()
             for key in user_pref:
                 if key == "user_skills":
-                    user_pref[key] = self.skill_set(user_pref[key])
+                    user_pref[key] = self.skill_set(str(user_pref[key]))
                 elif key == "min_salary":
                     try:
                         user_pref[key] = int(user_pref[key])

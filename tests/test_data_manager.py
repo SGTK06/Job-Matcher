@@ -189,12 +189,12 @@ class TestDataManager(unittest.TestCase):
         new_manager = DataManager()
         self.assertTrue(True)
 
-    def test_register_preferences_with_invalid_salary(self):
+    def test_register_preferences_with_invalid_salary_wt02_a(self):
         self.data_manager.register_preferences("skill1, skill2", "hundred")
         pref = self.data_manager.get_preferences()
         self.assertEqual(pref["min_salary"], 0)
 
-    def test_register_preferences_with_invalid_skills(self):
+    def test_register_preferences_with_invalid_skills_wt02_b(self):
         self.data_manager.register_preferences(1234, 10)
         pref = self.data_manager.get_preferences()
-        self.assertEqual(pref["min_salary"], 0)
+        self.assertEqual(pref["user_skills"], ["1234"])

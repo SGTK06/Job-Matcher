@@ -23,6 +23,7 @@ T05 False           True            True        False           True            
 T06 False           True            False       True            False               False       False           True
 T07 False           False           True        False           False               False       True            True
 
+Edge case: T08 -> 2 TLD in mail id
 """
 
 class TestMailInputValidation(unittest.TestCase):

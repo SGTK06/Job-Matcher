@@ -39,6 +39,7 @@ class TestListingManager(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        """set up testing environment while class setup"""
         listing_manager = ListingManager()
         # make deep copy to prevent mutation of job data during testing
         cls._production_listing_data = listing_manager.listings_data_frame.copy(deep=True)
@@ -49,9 +50,11 @@ class TestListingManager(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """restore prodcution environment while class teardown"""
         cls._production_listing_data.to_csv(SAVED_LISTINGS, index=False)
 
     def setUp(self):
+        """setup once at test start"""
         self.listings_data = {
             "id": [1],
             "url": ["self.url.link"],
@@ -87,20 +90,24 @@ class TestListingManager(unittest.TestCase):
         self.listing_manager = ListingManager()
 
     def test_initialization_bt01(self):
+        """test obj creation of listing manager"""
         listing_manager = ListingManager()
         self.assertTrue(True)
 
     def test_initial_no_listings_bt02(self):
+        """test if no listings initailly"""
         self.assertFalse(self.listing_manager.has_matched_listings())
 
     @mock.patch("pandas.read_csv")
     def test_listings_after_loading_data_bt03(self, job_df):
+        """test if has listinfs after loading fake data"""
         job_df.return_value = pandas.DataFrame(self.listings_data)
         new_manager = ListingManager()
         self.assertTrue(new_manager.has_matched_listings())
 
     @mock.patch("pandas.read_csv")
     def test_get_listings_data_bt04(self, job_df):
+        """test get listings after loading in fake data"""
         job_df.return_value = pandas.DataFrame(self.listings_data)
         new_manager = ListingManager()
         return_data = [{
@@ -121,16 +128,19 @@ class TestListingManager(unittest.TestCase):
         self.assertEqual(new_manager.get_listings(), return_data)
 
     def test_get_empty_listings_bt05(self):
+        """test getting empty listings"""
         empty_data = []
         self.assertEqual(self.listing_manager.get_listings(), empty_data)
 
     def test_register_listing_bt06(self):
+        """test registering listing"""
         self.listing_manager.register_listing(self.new_listing)
         return_data = [self.new_listing]
         return_data[0]["salary"] = int(return_data[0]["salary"])
         self.assertEqual(self.listing_manager.get_listings(), return_data)
 
     def test_register_duplicate_listing_bt07(self):
+        """register duplicate to see if only unique ones are stored"""
         self.listing_manager.register_listing(self.new_listing)
         self.listing_manager.register_listing(self.new_listing)
         return_data = [self.new_listing]
@@ -139,17 +149,20 @@ class TestListingManager(unittest.TestCase):
 
     @mock.patch("pandas.read_csv")
     def test_missing_file_error_handled_wt01(self, reader):
+        """chk if file not found error is handled"""
         reader.side_effect = raise_fnf_error
         new_manager = ListingManager()
         self.assertTrue(True)
 
     @mock.patch("pandas.read_csv")
     def test_unexpected_error_handled_wt02(self, reader):
+        """test if unexpected errors are handled"""
         reader.side_effect = raise_unexpected_error
         new_manager = ListingManager()
         self.assertTrue(True)
 
     def test_register_and_save_listings_wt03(self):
+        """test saving listings"""
         self.listing_manager.register_listing(self.new_listing)
         self.listing_manager.save_listings()
         new_manager = ListingManager()

@@ -68,9 +68,9 @@ class DataManager:
 
             return df
 
-        except Exception as e:
+        except:
             # handle other unexpected errors
-            print(f"Error loading {filepath}: {e}")
+            print(f"Error loading {filepath}")
             print(f"Creating new file with columns: {columns}")
 
             # check if dir exists

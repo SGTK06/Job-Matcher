@@ -38,12 +38,20 @@ Whitebox Tests:
 WT01. Test file does not exist case
       (to check if file not dound error is handled)
 WT02. Test save input is of the wrong type
+
+For Coverage Tests:
+WT03. Test unexpected exceptions while file reading
+WT04. Test save user to file
+WT05. Test save preferences to file
 """
 def raise_fnf_error(file):
     raise FileNotFoundError
 
 def raise_empty_file_error(file):
     raise pandas.errors.EmptyDataError
+
+def raise_unexpected_error(file):
+    raise BaseException
 
 
 class TestDataManager(unittest.TestCase):
@@ -198,3 +206,29 @@ class TestDataManager(unittest.TestCase):
         self.data_manager.register_preferences(1234, 10)
         pref = self.data_manager.get_preferences()
         self.assertEqual(pref["user_skills"], ["1234"])
+
+    @mock.patch("pandas.read_csv")
+    def test_unexpected_error_handled_wt03(self, reader):
+        reader.side_effect = raise_unexpected_error
+        new_manager = DataManager()
+        self.assertTrue(True)
+
+    def test_register_and_save_user_wt04(self):
+        self.data_manager.register_user("abc", "abc@def.com")
+        self.data_manager.save_user()
+        new_manager = DataManager()
+        return_data = {
+            "user_name": "abc",
+            "user_mail": "abc@def.com"
+        }
+        self.assertEqual(new_manager.get_user_data(), return_data)
+
+    def test_register_and_save_preferences_wt04(self):
+        self.data_manager.register_preferences("skill1, skill2, skill3, skill4, skill5", "10")
+        self.data_manager.save_preferences()
+        new_manager = DataManager()
+        return_data = {
+            "user_skills": ["skill1", "skill2", "skill3", "skill4", "skill5"],
+            "min_salary": 10
+        }
+        self.assertEqual(new_manager.get_preferences(), return_data)

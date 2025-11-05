@@ -67,7 +67,7 @@ class NlpProcessor():
         # find number of keywords that match more than the threshold
         # value and get as %
         for comparison in token_comparison:
-            if comparison["score"] > self.comparisonThreshold:
+            if comparison["score"] >= self.comparisonThreshold:
                 match += 1
 
         if len(token_comparison) > 0:

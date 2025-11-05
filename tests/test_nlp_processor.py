@@ -55,6 +55,17 @@ def nlp_model(word, default_similarity=None):
     """mock nlp model to return a list of fake tokens"""
     return [FakeToken(word, default_similarity)]
 
+def nlp_before_boundary_similarity(word):
+    """mock nlp model to return a list of fake tokens"""
+    return [FakeToken(word, 0.69)]
+
+def nlp_on_boundary_similarity(word):
+    """mock nlp model to return a list of fake tokens"""
+    return [FakeToken(word, 0.70)]
+
+def nlp_after_boundary_similarity(word):
+    """mock nlp model to return a list of fake tokens"""
+    return [FakeToken(word, 0.71)]
 
 class FakeToken:
     """Fake token class to test similarity evaluation
@@ -76,6 +87,23 @@ class FakeToken:
             else:
                 return 0
 
+def errored_nlp(word):
+    """mock nlp model to return a list of fake tokens"""
+    return [SimilarityErrorToken(word)]
+
+class SimilarityErrorToken:
+    """Error token class to test similarity evaluation
+    and scoring logic exception handling in case of error"""
+
+    def __init__(self, word, similarity_error=BaseException):
+        """Fake token constructor"""
+        self.lemma_ = word
+        self.word = word
+        self.default_similarity = similarity_error
+
+    def similarity(self, other):
+        """simple similarity logic"""
+        raise self.default_similarity
 
 class TestNlpProcessor(unittest.TestCase):
     """class to test the functionality of NLP processing pipeline"""
@@ -161,3 +189,43 @@ class TestNlpProcessor(unittest.TestCase):
         mock_processor.set_nlp_model(nlp_model)
         comparison_score = mock_processor.compare_keywords(target_list, source_list)
         self.assertEqual(comparison_score, 50)
+
+    def test_word_factor_into_score_logic_before_threshold_t10a(self):
+        """before boundery no comparison crosses threshold, 0%"""
+        source_list = ["a", "b", "c", "d", "e"]
+        target_list = ["f", "g", "h", "i", "j"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(nlp_before_boundary_similarity)
+        comparison_score = mock_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 0)
+
+    def test_word_factor_into_score_logic_at_threshold_t10b(self):
+        """on boundery all comparisons at threshold, 100% score"""
+        source_list = ["a", "b", "c", "d", "e"]
+        target_list = ["f", "g", "h", "i", "j"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(nlp_on_boundary_similarity)
+        comparison_score = mock_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 100)
+
+    def test_word_factor_into_score_logic_after_threshold_t10c(self):
+        """after boundery all comparisons score beyond threshold, 100% score"""
+        source_list = ["a", "b", "c", "d", "e"]
+        target_list = ["f", "g", "h", "i", "j"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(nlp_after_boundary_similarity)
+        comparison_score = mock_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 100)
+
+    def test_token_comparison_error_t11(self):
+        """after boundery all comparisons score beyond threshold, 100% score"""
+        source_list = ["a", "b", "c", "d", "e"]
+        target_list = ["f", "g", "h", "i", "j"]
+
+        mock_processor = NlpProcessor(70)
+        mock_processor.set_nlp_model(errored_nlp)
+        comparison_score = mock_processor.compare_keywords(source_list, target_list)
+        self.assertEqual(comparison_score, 0)

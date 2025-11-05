@@ -28,41 +28,49 @@ T07 False           False           True        False           False           
 class TestMailInputValidation(unittest.TestCase):
 
     def test_mail_without_at_separator_short_invalid_t01(self):
+        """test mail is invalid if no  @"""
         mail = "*/domain.co^"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_without_dot_separator_short_invalid_t02(self):
+        """test mail is invalid if no  ."""
         mail = "*mail@doc^"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_invalid_char_tld_short_t03(self):
+        """test mail is invalid if invalid chars present"""
         mail = "*ma*l@doma^n.c"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_no_separator_short_domain_t04(self):
+        """test mail is invalid if no separators"""
         mail = "maildocom"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_invalid_name_short_domain_t05(self):
+        """test mail is invalid if domain len short"""
         mail = "ma@d^.c"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_no_at_separator_invalid_chars_in_domain_t06(self):
+        """test mail is invalid if invalid chars present and no @"""
         mail = "mado^mainc"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
     def test_mail_short_name_invalid_domain_t07(self):
+        """test mail is invalid if invalid domain and mail name len short"""
         mail = "*@do^.com"
         valid = validate_email(mail)
         self.assertFalse(valid)
 
-    def test_double_tld_t_edge(self):
+    def test_double_tld_edge_t08(self):
+        """test mail with double TLD edge case"""
         mail = "stha0083@student.monash.edu"
         valid = validate_email(mail)
         self.assertTrue(valid)

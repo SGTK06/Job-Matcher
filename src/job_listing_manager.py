@@ -27,6 +27,8 @@ class ListingManager:
             self.listings_data_frame = self.listings_data_frame.reindex(columns=self.columns)
         except FileNotFoundError:
             self.listings_data_frame = pd.DataFrame(columns=self.columns)
+        except:
+            self.listings_data_frame = pd.DataFrame(columns=self.columns)
 
 
     def has_matched_listings(self):

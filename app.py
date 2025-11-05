@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+from src.user_data_manager import DataManager
 
 # Disable Streamlit file watcher errors on torch
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
@@ -31,11 +32,15 @@ num_jobs = st.number_input(
 )
 
 if st.button("Start Job Matching"):
-    with st.spinner("Fetching and matching jobs..."):
-        try:
-            search_and_match_jobs(num_jobs)
-            st.success(f"✅ Job search complete! Saved {num_jobs} listings (if matched).")
-        except Exception as e:
-            st.error(f"❌ An error occurred while matching jobs:\n\n{e}")
+    with st.spinner("Searching and matching jobs..."):
+        data_manager = DataManager()
+        if data_manager.has_preferences():
+            try:
+                search_and_match_jobs(num_jobs)
+                st.success(f"✅ Job search complete! Saved {num_jobs} listings (if matched).")
+            except Exception as e:
+                st.error(f"❌ An error occurred while matching jobs:\n\n{e}")
+        else:
+            st.error(f"Kindly setup your preferences and profile before starting job search:\n")
 
 st.info("You can view saved job listings and your profile using the sidebar navigation.")

@@ -4,6 +4,12 @@ author: Sham Ganesh Thamarai Kannan
 for: FIT2107 D2
 """
 import spacy
+from functools import cache
+
+@cache
+def get_spacy_model(model_name: str = "en_core_web_md"):
+    """Load and cache the spaCy model only once adn save in cache for fast retrieval"""
+    return spacy.load(model_name)
 
 
 class NlpProcessor():
@@ -12,7 +18,7 @@ class NlpProcessor():
 
     def __init__(self, match_percentage):
         """constructor for processor"""
-        self.nlp = spacy.load("en_core_web_md")
+        self.nlp = get_spacy_model()
         self.comparisonThreshold = match_percentage/100  # convert to in range [0, 100]
 
     def set_nlp_model(self, nlp_model):

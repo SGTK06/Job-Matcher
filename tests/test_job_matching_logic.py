@@ -10,12 +10,14 @@ import pandas
 from src.job_matching_logic import evaluate_job
 
 def get_user_data(self):
+    """mock user data"""
     return {
         "user_name": "Ash Ketchum",
         "user_mail": "ashk@pokemon.com"
     }
 
 def get_preferences(self):
+    """mock user preferences"""
     return {
         "user_skills": [
             "python",
@@ -37,7 +39,7 @@ class TestJobMatching(unittest.TestCase):
     """
 
     def setUp(self):
-
+        """set up at start of testing"""
         self.suitable_tags = {"user_skills": [
             "python",
             "numpy",

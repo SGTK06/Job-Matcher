@@ -45,32 +45,44 @@ class TestInputValidation(unittest.TestCase):
     """class to test the validation logic og the user input"""
 
 
-    def test_less_skills(self):
+    def test_less_skills_t01(self):
         """test case to check if a low number of skills input is rejected
         eqv partiiton"""
         skill_string = "skill1, skill2"
         self.assertFalse(validate_skills(skill_string))
 
-    def test_4_skills(self):
+    def test_large_number_of_skills_t02(self):
+        """test case to check if a lot of skills input is accepted
+        eqv part"""
+        skill_string = "skill1, skill2, skill3, skill4, skill5, skill6, skill7, skill8"
+        self.assertTrue(validate_skills(skill_string))
+
+    def test_before_boundary_skills_t03(self):
         """test case to check if input of 4 skills input is rejected
         BVA"""
         skill_string = "skill1, skill2, skill3, skill4"
         self.assertFalse(validate_skills(skill_string))
 
-    def test_appropriate_skills(self):
+    def test_on_boundary_skills_t04(self):
         """test case to check if input of 5 skills input is accepted
         BVA"""
         skill_string = "skill1, skill2, skill3, skill4, skill5"
         self.assertTrue(validate_skills(skill_string))
 
-    def test_one_extra_skills(self):
+    def test_after_boundary_skills_t05(self):
         """test case to check if input of 6 skills input is accepted
         BVA"""
         skill_string = "skill1, skill2, skill3, skill4, skill5, skill6"
         self.assertTrue(validate_skills(skill_string))
 
-    def test_large_number_of_skills(self):
-        """test case to check if a lot of skills input is accepted
-        eqv part"""
-        skill_string = "skill1, skill2, skill3, skill4, skill5, skill6, s7, s8, s9, s10, s11, s12, s13. s14"
-        self.assertTrue(validate_skills(skill_string))
+    def test_blank_skills_t06(self):
+        """test case to check if input of blank space instead of skills input is accepted
+        (edge case)"""
+        skill_string = " , , , , , "
+        self.assertFalse(validate_skills(skill_string))
+
+    def test_non_unique_skills_t07(self):
+        """test case to check if input of 6 non unique skills input is accepted
+        (edge case)"""
+        skill_string = " math, math, math, math, math, math"
+        self.assertFalse(validate_skills(skill_string))

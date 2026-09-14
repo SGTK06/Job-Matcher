@@ -1,4 +1,14 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![spaCy](https://img.shields.io/badge/NLP-spaCy-09A3D5)](https://spacy.io/)
+[![Pandas](https://img.shields.io/badge/Data-Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Remotive API](https://img.shields.io/badge/API-Remotive-2F80ED)](https://remotive.com/api-documentation)
+[![Tests](https://img.shields.io/badge/Tests-unittest%20%7C%20coverage-25A162)](https://coverage.readthedocs.io/)
+
 # Job Matcher
+
+Job Matcher is open source software licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 A Python-based **Job Matcher** application that helps users discover suitable remote jobs based on their skills and preferences.
 The system fetches live job listings, applies an NLP-based matching pipeline, and presents results through an interactive **Streamlit** UI.
